@@ -1,4 +1,6 @@
-export function compile(code, outputType) {
+const fs = require('fs');
+
+function compile(code, outputType) {
   // Split the code into lines
   const lines = code.split('\n');
   let jsCode = '';
@@ -35,3 +37,5 @@ export function compile(code, outputType) {
     console.log('Output:', result);
   }
 }
+
+module.exports = { compile };

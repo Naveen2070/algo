@@ -1,41 +1,30 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
-const readline = require('readline');
+const path = require('path');
+const { program } = require('commander');
 const { compile } = require('./compiler');
 
-// Check command line arguments
-const [, , fileName] = process.argv;
+program
+  .version('1.0.0')
+  .arguments('<file>')
+  .description('Compile and execute .alg files.')
+  .option(
+    '-o, --output <type>',
+    'Output type: js (JavaScript file) or output (direct output)'
+  )
+  .action((file, options) => {
+    const filePath = path.resolve(file);
+    const outputType = options.output || 'output';
 
-if (!fileName) {
-  console.log('Usage: algo filename.alg');
-  process.exit(1);
-}
-
-// Read the file
-fs.readFile(fileName, 'utf8', (err, data) => {
-  if (err) {
-    console.error('Error reading file:', err);
-    return;
-  }
-
-  // Prompt user for output type
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  rl.question(
-    'Select output type (js/1 for js file/output/2 for output): ',
-    (outputType) => {
-      if (!['js', 'output', '1', '2'].includes(outputType)) {
-        console.log(
-          'Invalid output type. Please choose either "js" or "output".'
-        );
-        rl.close();
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Error reading file:', err);
         return;
       }
 
       compile(data, outputType);
-      rl.close();
-    }
-  );
-});
+    });
+  });
+
+program.parse(process.argv);

@@ -1,0 +1,14 @@
+{
+  "name": "algo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/Compilers/js/algo.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "bin": {
+    "algo": "src/Compilers/js/algo.js"
+  }
+}
