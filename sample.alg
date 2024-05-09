@@ -1,8 +1,17 @@
-Start
-Const a = 5
-Let b = 0
+Start exp(a,b)
+
+Const A = a
+Let B = b
 
 For i in range a
-return b = i + 5
-
+return B = i + 5
 End
+
+return B
+End 
+
+const x = exp(5,0)
+const a = 10
+const b = 5
+let c = a + b
+Print (result = c * x)

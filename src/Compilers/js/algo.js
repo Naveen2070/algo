@@ -3,19 +3,15 @@
 const fs = require('fs');
 const path = require('path');
 const { program } = require('commander');
+const readline = require('readline');
 const { compile } = require('./compiler');
 
 program
   .version('1.0.0')
   .arguments('<file>')
   .description('Compile and execute .alg files.')
-  .option(
-    '-o, --output <type>',
-    'Output type: js (JavaScript file) or output (direct output)'
-  )
-  .action((file, options) => {
+  .action((file) => {
     const filePath = path.resolve(file);
-    const outputType = options.output || 'output';
 
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
@@ -23,7 +19,18 @@ program
         return;
       }
 
-      compile(data, outputType);
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      rl.question(
+        'Select output type (js or 1/output or 2): ',
+        (outputType) => {
+          compile(data, outputType);
+          rl.close();
+        }
+      );
     });
   });
 
