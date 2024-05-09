@@ -1,10 +1,10 @@
 {
-  "name": "algo_complier",
+  "name": "algo-complier",
   "version": "1.0.0",
-  "description": "",
+  "description": "Algo is a compiler designed to translate pseudo code written in a custom language to JavaScript. Currently, it's in its budding stage and supports limited conversion to JavaScript.",
   "main": "src/Compilers/js/algo.js",
-  "author": "",
-  "license": "ISC",
+  "author": "naveen_r_sam",
+  "license": "BSD",
   "dependencies": {
     "commander": "^12.0.0"
   },
