@@ -1,4 +1,4 @@
-# Algo Compiler
+# Algo
 
 Algo is a compiler designed to translate pseudo code written in a custom language to JavaScript. Currently, it's in its budding stage and supports limited conversion to JavaScript.
 
