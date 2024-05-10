@@ -1,3 +1,4 @@
 Start greet(name)
-    print("Hello, " + name + "!")
+    Print ("Hello, " + name + "!" @ "test")
 End 
+greet("sam")

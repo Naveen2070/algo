@@ -43,7 +43,7 @@ To get started with Algo, follow these steps:
 
 ```
 Start greet(name)
-print("Hello, " + name + "!")
+Print("Hello, " + name + "!")
 End
 ```
 

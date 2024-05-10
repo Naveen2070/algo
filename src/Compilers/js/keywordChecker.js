@@ -7,29 +7,43 @@ function checkKeyword(line, currentFunction) {
   }
 
   // Check for Print statement
-  const printMatch = line.match(/^Print\s*\((.*)\)$/);
+  const printMatch = line.match(
+    /^Print\s*\(\s*"([^@]*)"\s*(?:@\s*"([^"]*)")?\s*\)$/
+  );
   if (printMatch) {
-    let statement = printMatch[1].trim();
-    if (statement.startsWith('result')) {
-      const resultName = statement.split('=')[1].trim();
-      return `console.log(${resultName},"result");\n`;
+    const message = printMatch[1];
+    const marker = printMatch[2];
+    if (marker) {
+      return `console.log("${message}", "${marker}");\n`;
     } else {
-      return `console.log(${statement});\n`;
+      return `console.log("${message}");\n`;
     }
   }
 
   // Check for keywords
-  if (line.startsWith('Const')) {
-    const [_, variable, value] = line.match(/Const (\w+)\s*=\s*(.+)/);
-    return `const ${variable} = ${value};\n`;
-  } else if (line.startsWith('Let')) {
-    const [_, variable, value] = line.match(/Let (\w+)\s*=\s*(.+)/);
-    return `let ${variable} = ${value};\n`;
-  } else if (line.startsWith('For')) {
-    const [_, variable, range] = line.match(/For (\w+)\s+in\s+range\s+(.+)/);
+  let match;
+  if ((match = line.match(/^(Const|Let)\s+(\w+)\s*=\s*(.+)/))) {
+    const [, keyword, variable, value] = match;
+    return `${keyword.toLowerCase()} ${variable} = ${value};\n`;
+  }
+
+  if ((match = line.match(/^For (\w+)\s+in\s+range\s+(.+)/))) {
+    const [, variable, range] = match;
     return `for (let ${variable} = 0; ${variable} < ${range}; ${variable}++) {\n`;
-  } else if (line.startsWith('return')) {
-    const [_, value] = line.match(/return\s+(.+)/);
+  }
+
+  if ((match = line.match(/^While\s+(.+)/))) {
+    const [, condition] = match;
+    return `while (${condition}) {\n`;
+  }
+
+  if ((match = line.match(/^If\s+(.+)/))) {
+    const [, condition] = match;
+    return `if (${condition}) {\n`;
+  }
+
+  if ((match = line.match(/^return\s+(.+)/))) {
+    const [, value] = match;
     if (currentFunction.name) {
       return `    return ${value};\n`;
     } else {
