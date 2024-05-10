@@ -42,6 +42,11 @@ function checkKeyword(line, currentFunction) {
     return `if (${condition}) {\n`;
   }
 
+  if ((match = line.match(/^Else\s+(.+)/))) {
+    const [, condition] = match;
+    return `} else {\n`;
+  }
+
   if ((match = line.match(/^return\s+(.+)/))) {
     const [, value] = match;
     if (currentFunction.name) {

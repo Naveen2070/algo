@@ -1,4 +1,9 @@
 Start greet(name)
-    Print ("Hello, " + name + "!" @ "test")
+Let a = 3
+If (a > 5)
+Print ("Hello, " + name + "!" @ "G")
+Else (a < 5)
+Print ("Hello, " + name + "!" @ "S")
+End 
 End 
 greet("sam")
