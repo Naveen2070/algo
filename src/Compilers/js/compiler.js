@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { processFunction } = require('./keywordChecker');
+const { processFunction } = require('./processFunction');
 
 function compile(code, outputType) {
   // Split the code into lines
