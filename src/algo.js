@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { program } = require('commander');
 const readline = require('readline');
-const { compile } = require('./compiler');
+const { compile } = require('./Compilers/js/compiler');
 
 program
   .version('1.0.0')

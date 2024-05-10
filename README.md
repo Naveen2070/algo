@@ -21,7 +21,7 @@ To get started with Algo, follow these steps:
 2. Install the required dependencies:
 
    ```bash
-   npm install
+   npm install -g
    ```
 
 3. Start using Algo to convert your pseudo code to JavaScript!
@@ -44,14 +44,14 @@ To get started with Algo, follow these steps:
 ```
 Start greet(name)
 print("Hello, " + name + "!")
-End 
+End
 ```
 
 **Compiled JavaScript (example.js):**
 
 ```javascript
 function greet(name) {
-console.log("Hello, " + name + "!");
+  console.log('Hello, ' + name + '!');
 }
 ```
 
@@ -71,6 +71,6 @@ Please note that Algo is still in its early stages of development, and the conve
 
 For any inquiries or support, feel free to contact the project maintainer at [naveenrameshcud@gmail.com](mailto:naveenrameshcud@gmail.com).
 
---- 
+---
 
-*Algo - Short for algorithm.*
+_Algo - Short for algorithm._

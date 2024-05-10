@@ -9,6 +9,6 @@
     "commander": "^12.0.0"
   },
   "bin": {
-    "algo": "src/Compilers/js/algo.js"
+    "algo": "src/algo.js"
   }
 }
