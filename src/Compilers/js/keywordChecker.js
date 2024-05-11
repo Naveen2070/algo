@@ -8,15 +8,15 @@ function checkKeyword(line, currentFunction) {
 
   // Check for Print statement
   const printMatch = line.match(
-    /^Print\s*\(\s*"([^@]*)"\s*(?:@\s*"([^"]*)")?\s*\)$/
+    /^Print\s*\(\s*(.+)\s*(?:@\s*"([^"]*)")?\s*\)$/
   );
   if (printMatch) {
     const message = printMatch[1];
     const marker = printMatch[2];
     if (marker) {
-      return `console.log("${message}", "${marker}");\n`;
+      return `console.log(${message}, "${marker}");\n`;
     } else {
-      return `console.log("${message}");\n`;
+      return `console.log(${message});\n`;
     }
   }
 
@@ -42,9 +42,32 @@ function checkKeyword(line, currentFunction) {
     return `if (${condition}) {\n`;
   }
 
-  if ((match = line.match(/^Else\s+(.+)/))) {
+  if ((match = line.match(/^Else If\s+(.+)/))) {
     const [, condition] = match;
+    return `} else if (${condition}) {\n`;
+  }
+
+  if ((match = line.match(/^Else/))) {
     return `} else {\n`;
+  }
+
+  if ((match = line.match(/^Switch to\s+(\w+)/))) {
+    const [, variable] = match;
+    return `switch (${variable}) {\n`;
+  }
+
+  if ((match = line.match(/^When\s+(.+)/))) {
+    const [, condition] = match;
+    return `  case ${condition}:\n`;
+  }
+
+  if ((match = line.match(/^Usually\s+(.+)/))) {
+    const [, expression] = match;
+    return `  default:\n    ${expression}\n`;
+  }
+
+  if ((match = line.match(/^Stop/))) {
+    return `break;\n`;
   }
 
   if ((match = line.match(/^return\s+(.+)/))) {
