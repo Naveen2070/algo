@@ -35,7 +35,15 @@ To get started with Algo, follow these steps:
    algo your_file.alg
    ```
 
-3. The compiled JavaScript code will be generated in the same directory with the same filename but with a `.js` extension.
+3. Follow the prompts:
+
+   - Select the mode:
+     - `Convert`: Only convert pseudo code to JavaScript.
+     - `Run`: Immediately execute the code.
+   - If `Convert` mode is selected, optionally provide a custom output file name.
+   - If no custom output file name is provided, the default name (output.js) is used.
+
+4. The compiled JavaScript code will be generated according to your selections.
 
 ## Example
 
@@ -67,9 +75,16 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 For detailed syntax guidelines, refer to [Documentation.md](Documentation.md).
 
+## Configuration
+
+Algo reads configuration from a `config.lang` file in the project directory. If no config file is found, default values are used. Configuration options include:
+
+- `Language`: The target language for conversion (e.g., Js for JavaScript).
+- `Version`: The version of the target language (optional).
+
 ## Disclaimer
 
-Please note that Algo is still in its early stages of development, and the conversion capabilities are limited. Use it with caution and report any bugs or issues you encounter.
+**_Please note that Algo is still in its early stages of development, and the conversion capabilities are limited. There might be breaking changes in future updates. Use it with caution and report any bugs or issues you encounter._**
 
 ## Contact
 

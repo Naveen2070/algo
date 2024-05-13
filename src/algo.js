@@ -48,7 +48,8 @@ program
           return;
         }
 
-        const promptMessage = `Select output type (${config.Language} or 1/output or 2): `;
+        const promptMessage = `Selected Language:${config.Language}
+Select Mode (Convert or 1/Run or 2): `;
 
         const rl = readline.createInterface({
           input: process.stdin,
@@ -58,7 +59,8 @@ program
         rl.question(promptMessage, (outputType) => {
           if (
             outputType === '1' ||
-            outputType.toLowerCase === config.Language
+            outputType === 'Convert' ||
+            outputType === 'convert'
           ) {
             rl.question('Enter file name(output.js): ', (fileName) => {
               compileToJs(data, outputType, fileName, config);
@@ -66,12 +68,14 @@ program
             });
           } else if (
             outputType === '2' ||
-            outputType.toLowerCase() === 'output'
+            outputType === 'Run' ||
+            outputType === 'run'
           ) {
             compileToJs(data, outputType, config);
             rl.close();
           } else {
             console.error('Unsupported language:', config.Language);
+            rl.close();
           }
         });
       });
