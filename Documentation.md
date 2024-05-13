@@ -86,7 +86,7 @@ End Switch
 
 ## 5. Printing
 
-Output can be printed to the console using the `Print` statement. You also add marker by placing them after a `,` like this `Print (a ,"variables")`
+Output can be printed to the console using the `Print` statement.
 
 ```
 Print ('Hello, world!');
@@ -113,4 +113,4 @@ oddEven(8)
 
 ---
 
-This documentation provides a basic overview of the syntax and structure of algo. Refer to specific [examples](Documentation.md) or documentation for more detailed usage and features.
+This documentation provides a basic overview of the syntax and structure of algo. Refer to specific [examples](Examples.md) or documentation for more detailed usage and features.

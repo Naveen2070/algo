@@ -7,17 +7,10 @@ function checkKeyword(line, currentFunction) {
   }
 
   // Check for Print statement
-  const printMatch = line.match(
-    /^Print\s*\(\s*(.+)\s*(?:@\s*"([^"]*)")?\s*\)$/
-  );
+  const printMatch = line.match(/^Print\s*\(\s*(.+)\s*\)$/);
   if (printMatch) {
-    const message = printMatch[1];
-    const marker = printMatch[2];
-    if (marker) {
-      return `console.log(${message}, "${marker}");\n`;
-    } else {
-      return `console.log(${message});\n`;
-    }
+    const content = printMatch[1];
+    return `console.log(${content});\n`;
   }
 
   // Check for keywords
