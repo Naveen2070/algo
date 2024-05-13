@@ -19,7 +19,7 @@ This guide outlines the syntax rules and conventions for writing code in the pse
 
 Comments in the algo are denoted by double forward slashes `//`. Anything following `//` on the same line is considered a comment and is ignored by the interpreter.
 
-```javascript
+```
 // This is a comment
 ```
 
@@ -27,7 +27,7 @@ Comments in the algo are denoted by double forward slashes `//`. Anything follow
 
 Functions are declared using the `Start` keyword followed by the function name and parameters enclosed in parentheses. The function body is defined between `Start` and `End` keywords. **It's important to note that `End` is not just used to close a function, but also all loop and conditional statements.**
 
-```javascript
+```
 Start functionName(param1, param2, ...)
     // Function body
 End
@@ -37,7 +37,7 @@ End
 
 Variables can be declared using the `Const` or `Let` keyword followed by the variable name and its initial value.`Const` must be initialized before using it.
 
-```javascript
+```
 Const variableName = 10
 Let anotherVariable = "Hello"
 ```
@@ -48,7 +48,7 @@ Let anotherVariable = "Hello"
 
 Conditional statements are defined using the `If`, `Else If`, and `Else` keywords.
 
-```javascript
+```
 If condition
     // Code block executed if condition is true
  Else If anotherCondition
@@ -62,7 +62,7 @@ End Else
 
 Loops can be implemented using the `While` and `For` keywords.
 
-```javascript
+```
 While condition
     // Code block executed while condition is true
 End While
@@ -76,7 +76,7 @@ End For
 
 Switch case statements are defined using the `Switch to`, `When`, and `Usually` keywords.
 
-```javascript
+```compileToJs
 Switch to variable
     When condition:
         // Code block executed when condition is met
@@ -86,10 +86,10 @@ End Switch
 
 ## 5. Printing
 
-Output can be printed to the console using the `Print` statement.
+Output can be printed to the console using the `Print` statement. You also add marker by placing them after a `,` like this `Print (a ,"variables")`
 
-```javascript
-Print('Hello, world!');
+```
+Print ('Hello, world!');
 ```
 
 ## 6. Indentation
@@ -98,23 +98,19 @@ While indentation is recommended for readability, it is not mandatory in the alg
 
 ## 7. Example
 
-### Fibonacci Sequence
+### Odd-Even Check
 
-```javascript
-Start fibonacci(n)
-    Let a = 0
-    Let b = 1
-    Let c
-    While n > 0
-        Print(a)
-        c = a + b
-        a = b
-        b = c
-        n = n - 1
-    End While
+```
+Start oddEven(num)
+    If num % 2 == 0
+        Print (num, ' is even')
+    Else
+        Print (num, ' is odd')
+    End If
 End
+oddEven(8)
 ```
 
 ---
 
-This documentation provides a basic overview of the syntax and structure of algo. Refer to specific examples or documentation for more detailed usage and features.
+This documentation provides a basic overview of the syntax and structure of algo. Refer to specific [examples](Documentation.md) or documentation for more detailed usage and features.

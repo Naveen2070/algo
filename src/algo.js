@@ -62,7 +62,7 @@ Select Mode (Convert or 1/Run or 2): `;
             outputType === 'Convert' ||
             outputType === 'convert'
           ) {
-            rl.question('Enter file name(output.js): ', (fileName) => {
+            rl.question('Enter file name (output.js): ', (fileName) => {
               compileToJs(data, outputType, fileName, config);
               rl.close();
             });
