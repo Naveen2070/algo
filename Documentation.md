@@ -13,7 +13,7 @@ This guide outlines the syntax rules and conventions for writing code in the pse
   - [4.3. Switch Case](#43-switch-case)
 - [5. Printing](#5-printing)
 - [6. Indentation](#6-indentation)
-- [7. Examples](#6-examples)
+- [7. Example](#6-example)
 
 ## 1. Comments
 
@@ -96,9 +96,9 @@ Print('Hello, world!');
 
 While indentation is recommended for readability, it is not mandatory in the algo. However, consistent indentation is encouraged to enhance code clarity.
 
-## 7. Examples
+## 7. Example
 
-### Example 1: Fibonacci Sequence
+### Fibonacci Sequence
 
 ```javascript
 Start fibonacci(n)
