@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { processFunction } = require('./processFunction');
 
-function compile(code, outputType) {
+function compileToJs(code, outputType, fileName, config) {
   // Split the code into lines
   const lines = code.split('\n');
   let jsCode = '';
@@ -14,12 +14,15 @@ function compile(code, outputType) {
   }
 
   if (outputType === 'js' || outputType === '1') {
-    fs.writeFileSync('output.js', jsCode);
-    console.log('JavaScript file generated: output.js');
+    if (!fileName) fileName = 'output'; // Default file name
+    fs.writeFileSync(`${fileName}.${config.Language.toLowerCase()}`, jsCode);
+    console.log(
+      `JavaScript file generated: ${fileName}.${config.Language.toLowerCase()}`
+    );
   } else {
     const func = new Function(jsCode);
     const result = func();
   }
 }
 
-module.exports = { compile };
+module.exports = { compileToJs };

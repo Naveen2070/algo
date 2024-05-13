@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const { program } = require('commander');
 const readline = require('readline');
-const { compile } = require('./Compilers/js/compiler');
+const { compileToJs } = require('./Compilers/js/compiler');
 
-// Function to read configuration from config.lex file
+// Function to read configuration from config.lang file
 function readConfig(directory, callback) {
-  const configPath = path.join(directory, 'config.lex');
+  const configPath = path.join(directory, 'config.lang');
   fs.readFile(configPath, 'utf8', (err, data) => {
     if (err) {
       if (err.code === 'ENOENT') {
@@ -56,8 +56,23 @@ program
         });
 
         rl.question(promptMessage, (outputType) => {
-          compile(data, outputType, config);
-          rl.close();
+          if (
+            outputType === '1' ||
+            outputType.toLowerCase === config.Language
+          ) {
+            rl.question('Enter file name(output.js): ', (fileName) => {
+              compileToJs(data, outputType, fileName, config);
+              rl.close();
+            });
+          } else if (
+            outputType === '2' ||
+            outputType.toLowerCase() === 'output'
+          ) {
+            compileToJs(data, outputType, config);
+            rl.close();
+          } else {
+            console.error('Unsupported language:', config.Language);
+          }
         });
       });
     });
