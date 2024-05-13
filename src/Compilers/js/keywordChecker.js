@@ -22,8 +22,20 @@ function checkKeyword(line, currentFunction) {
 
   // Check for keywords
   let match;
-  if ((match = line.match(/^(Const|Let)\s+(\w+)\s*=\s*(.+)/))) {
+  if ((match = line.match(/^(Const)\s+(\w+)\s*=\s*(.+)/))) {
     const [, keyword, variable, value] = match;
+    if (value === undefined) {
+      console.error('Error: const declaration must be initialized.');
+      return ''; // Return empty string to signify error
+    }
+    return `${keyword.toLowerCase()} ${variable} = ${value};\n`;
+  }
+
+  if ((match = line.match(/^(Let)\s+(\w+)\s*(?:=\s*(.+))?/))) {
+    const [, keyword, variable, value] = match;
+    if (value === undefined) {
+      return `${keyword.toLowerCase()} ${variable};\n`;
+    }
     return `${keyword.toLowerCase()} ${variable} = ${value};\n`;
   }
 

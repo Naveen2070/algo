@@ -1,14 +1,12 @@
-Start twoPointerAlgorithm(arr)
-Const left = 0
-Const right = arr.length - 1
-While left < right
-    If arr[left] + arr[right] === target
-        return [left, right]
-    Else If arr[left] + arr[right] < target
-        Let left = left + 1
-    Else
-        Let right = right - 1
-    End Else
-End While
-return [-1, -1]
+Start fibonacci(n)
+    Let a = 0
+    Let b = 1
+    Let c 
+    While n > 0
+        Print(a)
+        c = a + b
+        a = b
+        b = c
+        n = n - 1
+    End While
 End

@@ -35,11 +35,11 @@ End
 
 ## 3. Variables
 
-Variables can be declared using the `Const` or `Let` keyword followed by the variable name and its initial value.
+Variables can be declared using the `Const` or `Let` keyword followed by the variable name and its initial value.`Const` must be initialized before using it.
 
 ```javascript
-Const variableName = 10;
-Let anotherVariable = "Hello";
+Const variableName = 10
+Let anotherVariable = "Hello"
 ```
 
 ## 4. Control Flow
@@ -102,15 +102,15 @@ While indentation is recommended for readability, it is not mandatory in the alg
 
 ```javascript
 Start fibonacci(n)
-    Let a = 0;
-    Let b = 1;
-    Let c;
+    Let a = 0
+    Let b = 1
+    Let c
     While n > 0
-        Print(a);
-        Let c = a + b;
-        Let a = b;
-        Let b = c;
-        Let n = n - 1;
+        Print(a)
+        c = a + b
+        a = b
+        b = c
+        n = n - 1
     End While
 End
 ```
