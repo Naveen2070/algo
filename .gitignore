@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# Ignore algo_file 
+/algo_files
+
 # production
 /build
 
@@ -24,6 +27,4 @@ yarn-error.log*
 
 # Ignore files with .alg extension
 *.alg
-
-# Ignore algo_file 
-/algo_file
+*.lang
