@@ -63,6 +63,10 @@ Algo is licensed under the BSD 3-Clause License. See [LICENSE](LICENSE) for more
 
 Contributions are welcome! Feel free to open an issue or submit a pull request.
 
+## Documentation
+
+For detailed syntax guidelines, refer to [Documentation.md](Documentation.md).
+
 ## Disclaimer
 
 Please note that Algo is still in its early stages of development, and the conversion capabilities are limited. Use it with caution and report any bugs or issues you encounter.
