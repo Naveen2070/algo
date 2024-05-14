@@ -13,7 +13,11 @@ function compileToJs(code, outputType, fileName, config) {
     jsCode += processFunction(line, currentFunction);
   }
 
-  if (outputType === 'js' || outputType === '1') {
+  if (
+    outputType === 'Convert' ||
+    outputType === 'convert' ||
+    outputType === '1'
+  ) {
     if (!fileName) fileName = 'output'; // Default file name
     fs.writeFileSync(`${fileName}.${config.Language.toLowerCase()}`, jsCode);
     console.log(

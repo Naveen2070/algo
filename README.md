@@ -79,7 +79,8 @@ For detailed syntax guidelines, refer to [Documentation.md](Documentation.md).
 
 Algo reads configuration from a `config.lang` file in the project directory. If no config file is found, default values are used. Configuration options include:
 
-- `Language`: The target language for conversion (e.g., Js for JavaScript).
+- `Language`: The target language for conversion (e.g., JavaScript).
+- `Format`: The target language format for file creation (e.g., js for JavaScript).
 - `Version`: The version of the target language (optional).
 
 ## Disclaimer

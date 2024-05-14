@@ -5,6 +5,7 @@ const path = require('path');
 const { program } = require('commander');
 const readline = require('readline');
 const { compileToJs } = require('./Compilers/js/compiler');
+const { compileToPython } = require('./Compilers/python/compiler');
 
 // Function to read configuration from config.lang file
 function readConfig(directory, callback) {
@@ -47,8 +48,10 @@ program
           console.error('Error reading file:', err);
           return;
         }
+        const language = String(config.Language);
+        const format = String(config.Format);
 
-        const promptMessage = `Selected Language:${config.Language}
+        const promptMessage = `Selected Language:${language}
 Select Mode (Convert or 1/Run or 2): `;
 
         const rl = readline.createInterface({
@@ -57,22 +60,42 @@ Select Mode (Convert or 1/Run or 2): `;
         });
 
         rl.question(promptMessage, (outputType) => {
-          if (
-            outputType === '1' ||
-            outputType === 'Convert' ||
-            outputType === 'convert'
-          ) {
-            rl.question('Enter file name (output.js): ', (fileName) => {
-              compileToJs(data, outputType, fileName, config);
+          if (language.toLowerCase() === 'javascript') {
+            if (
+              outputType === '1' ||
+              outputType === 'Convert' ||
+              outputType === 'convert'
+            ) {
+              rl.question(`Enter file name (output.${format}):`, (fileName) => {
+                compileToJs(data, outputType, fileName, config);
+                rl.close();
+              });
+            } else if (
+              outputType === '2' ||
+              outputType === 'Run' ||
+              outputType === 'run'
+            ) {
+              compileToJs(data, outputType, config);
               rl.close();
-            });
-          } else if (
-            outputType === '2' ||
-            outputType === 'Run' ||
-            outputType === 'run'
-          ) {
-            compileToJs(data, outputType, config);
-            rl.close();
+            }
+          } else if (language.toLowerCase() === 'python') {
+            if (
+              outputType === '1' ||
+              outputType === 'Convert' ||
+              outputType === 'convert'
+            ) {
+              rl.question(`Enter file name (output.${format}):`, (fileName) => {
+                compileToPython(data, outputType, fileName, config);
+                rl.close();
+              });
+            } else if (
+              outputType === '2' ||
+              outputType === 'Run' ||
+              outputType === 'run'
+            ) {
+              compileToPython(data, outputType, config);
+              rl.close();
+            }
           } else {
             console.error('Unsupported language:', config.Language);
             rl.close();
