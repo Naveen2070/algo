@@ -19,9 +19,9 @@ function compileToJs(code, outputType, fileName, config) {
     outputType === '1'
   ) {
     if (!fileName) fileName = 'output'; // Default file name
-    fs.writeFileSync(`${fileName}.${config.Language.toLowerCase()}`, jsCode);
+    fs.writeFileSync(`${fileName}.${config.Format.toLowerCase()}`, jsCode);
     console.log(
-      `JavaScript file generated: ${fileName}.${config.Language.toLowerCase()}`
+      `JavaScript file generated: ${fileName}.${config.Format.toLowerCase()}`
     );
   } else {
     const func = new Function(jsCode);

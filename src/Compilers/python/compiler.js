@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { processFunction } = require('./processFunction');
+const { fixIndentation } = require('../../util/indentationChecker');
 
 function compileToPython(code, outputType, fileName, config) {
   const lines = code.split('\n');
@@ -19,6 +20,7 @@ function compileToPython(code, outputType, fileName, config) {
     outputType === '1'
   ) {
     if (!fileName) fileName = 'output'; // Default file name
+    pythonCode = fixIndentation(pythonCode);
     fs.writeFileSync(`${fileName}.py`, pythonCode);
     console.log(`Python file generated: ${fileName}.py`);
   } else {

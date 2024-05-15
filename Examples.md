@@ -14,7 +14,7 @@ Start factorial(n)
         Return 1
     Else
         Return n * factorial(n - 1)
-    End Else
+    End If
 End
 ```
 
@@ -130,12 +130,58 @@ Start binarySearch(arr, x)
             low = mid + 1
         Else
             high = mid - 1
-        End Else
+        End If
     End While
     Return -1
 End
 ```
 
----
+## Examples Using Built-in Functions
+
+### Example 1: Rounding Numbers
+
+```alg
+Start roundExample(num)
+    Let roundedNum = Round(num)
+    Print("Rounded number:", roundedNum)
+End
+
+roundExample(3.7)
+```
+
+### Example 2: Finding Absolute Value
+
+```alg
+Start absoluteExample(num)
+    Let absValue = Absolute value(num)
+    Print("Absolute value:", absValue)
+End
+
+absoluteExample(-5)
+```
+
+### Example 3: Calculating Exponential
+
+```alg
+Start exponentialExample(num)
+    Let result = Exponential(num)
+    Print("Exponential:", result)
+End
+
+exponentialExample(2)
+```
+
+### Example 4: Finding Minimum and Maximum
+
+```alg
+Start minMaxExample(num1, num2)
+    Let minValue = Minimum(num1, num2)
+    Let maxValue = Maximum(num1, num2)
+    Print("Minimum:", minValue)
+    Print("Maximum:", maxValue)
+End
+
+minMaxExample(10, 20)
+```
 
 These examples demonstrate various basic algorithms implemented in the Algo syntax. Feel free to use them as reference for your projects or learning purposes.

@@ -78,7 +78,7 @@ Select Mode (Convert or 1/Run or 2): `;
               compileToJs(data, outputType, config);
               rl.close();
             }
-          } else if (language.toLowerCase() === 'python') {
+          } else if (language.toLowerCase() === 'under-work') {
             if (
               outputType === '1' ||
               outputType === 'Convert' ||
