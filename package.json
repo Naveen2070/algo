@@ -14,5 +14,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Naveen2070/algo"
+  },
+  "publishConfig": {
+    "name": "@naveen_r_sam/algo-complier",
+    "access": "public"
   }
 }
