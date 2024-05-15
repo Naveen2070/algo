@@ -94,3 +94,5 @@ For any inquiries or support, feel free to contact the project maintainer at [na
 ---
 
 _Algo - Short for algorithm._
+
+For a detailed list of changes, see [changelog.md](changelog.md).

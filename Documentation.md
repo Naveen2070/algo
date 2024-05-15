@@ -13,7 +13,8 @@ This guide outlines the syntax rules and conventions for writing code in the pse
   - [4.3. Switch Case](#43-switch-case)
 - [5. Printing](#5-printing)
 - [6. Indentation](#6-indentation)
-- [7. Example](#6-example)
+- [7. Inbuilt Function Conversion](#7-inbuilt-function-conversion)
+- [8. Example](#8-example)
 
 ## 1. Comments
 
@@ -25,7 +26,7 @@ Comments in the algo are denoted by double forward slashes `//`. Anything follow
 
 ## 2. Functions
 
-Functions are declared using the `Start` keyword followed by the function name and parameters enclosed in parentheses. The function body is defined between `Start` and `End` keywords. **It's important to note that `End` is not just used to close a function, but also all loop and conditional statements.**
+Functions are declared using the `Start` keyword followed by the function name and parameters enclosed in parentheses. The function body is defined between `Start` and `End` keywords.
 
 ```
 Start functionName(param1, param2, ...)
@@ -35,7 +36,7 @@ End
 
 ## 3. Variables
 
-Variables can be declared using the `Const` or `Let` keyword followed by the variable name and its initial value.`Const` must be initialized before using it.
+Variables can be declared using the `Const` or `Let` keyword followed by the variable name and its initial value.
 
 ```
 Const variableName = 10
@@ -96,7 +97,21 @@ Print ('Hello, world!');
 
 While indentation is recommended for readability, it is not mandatory in the algo. However, consistent indentation is encouraged to enhance code clarity.
 
-## 7. Example
+## 7. Inbuilt Function Conversion
+
+Inbuilt functions can be converted to their JavaScript equivalents:
+
+- `Round up` -> `Math.ceil`
+- `Round down` -> `Math.floor`
+- `Round` -> `Math.round`
+- `Absolute value` -> `Math.abs`
+- `Exponential` -> `Math.exp`
+- `Natural logarithm` -> `Math.log`
+- `Base 10 logarithm` -> `Math.log10`
+- `Minimum` -> `Math.min`
+- `Maximum` -> `Math.max`
+
+## 8. Example
 
 ### Odd-Even Check
 
