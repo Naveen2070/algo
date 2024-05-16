@@ -8,6 +8,10 @@ Algo is a compiler designed to translate pseudo code written in a custom languag
 - Simple and easy-to-understand syntax for writing pseudo code.
 - Intuitive and minimalistic interface.
 
+## Prerequisites
+
+Before using Algo, ensure you have Node.js installed on your system. You can download and install Node.js from the official website: [Node.js](https://nodejs.org/)
+
 ## Getting Started
 
 To get started with Algo, follow these steps:
