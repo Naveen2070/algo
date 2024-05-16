@@ -81,7 +81,7 @@ Start fibonacci(n)
     Let b = 1
     Let c
     While n > 0
-        Print (a)
+        Print  (a)
         c = a + b
         a = b
         b = c
@@ -143,7 +143,7 @@ End
 ```alg
 Start roundExample(num)
     Let roundedNum = Round(num)
-    Print("Rounded number:", roundedNum)
+    Print ("Rounded number:", roundedNum)
 End
 
 roundExample(3.7)
@@ -154,7 +154,7 @@ roundExample(3.7)
 ```alg
 Start absoluteExample(num)
     Let absValue = Absolute value(num)
-    Print("Absolute value:", absValue)
+    Print ("Absolute value:", absValue)
 End
 
 absoluteExample(-5)
@@ -165,7 +165,7 @@ absoluteExample(-5)
 ```alg
 Start exponentialExample(num)
     Let result = Exponential(num)
-    Print("Exponential:", result)
+    Print ("Exponential:", result)
 End
 
 exponentialExample(2)
@@ -177,11 +177,127 @@ exponentialExample(2)
 Start minMaxExample(num1, num2)
     Let minValue = Minimum(num1, num2)
     Let maxValue = Maximum(num1, num2)
-    Print("Minimum:", minValue)
-    Print("Maximum:", maxValue)
+    Print ("Minimum:", minValue)
+    Print ("Maximum:", maxValue)
 End
 
 minMaxExample(10, 20)
+```
+
+### Example 5: Power Calculation
+
+```alg
+Start powerExample(base, exponent)
+    // Calculate the power of a number
+    Let result = Power of(base, exponent)
+    Print ("Result:", result)
+End
+powerExample(2, 3) // Calculate 2 to the power of 3
+```
+
+### Example 6: Square Root Calculation
+
+```alg
+Start squareRootExample(number)
+    // Calculate the square root of a number
+    Let result = Root(number)
+    Print ("Square root:", result)
+End
+squareRootExample(16) // Calculate the square root of 16
+```
+
+### Example 7: Increment Operator
+
+```alg
+Start incrementExample(number)
+    // Increment a number
+    Increment(number)
+    Print ("Incremented number:", number)
+End
+Let num = 5
+incrementExample(num) // Increment the number 5
+```
+
+### Example 8: Decrement Operator
+
+```alg
+Start decrementExample(number)
+    // Decrement a number
+    Decrement(number)
+    Print ("Decremented number:", number)
+End
+Let num = 10
+decrementExample(num) // Decrement the number 10
+```
+
+# Examples Using Built-in Functions and IIFE
+
+```alg
+Run main()
+    // Test Round up
+    Let num1 = 3.7
+    Let roundedUp = Round up(num1)
+    Print ("Rounded up:", roundedUp)
+
+    // Test Round down
+    Let num2 = 4.3
+    Let roundedDown = Round down(num2)
+    Print ("Rounded down:", roundedDown)
+
+    // Test Round
+    Let num3 = 3.5
+    Let rounded = Round(num3)
+    Print ("Rounded:", rounded)
+
+    // Test Absolute value
+    Let num4 = -10
+    Let absValue = Absolute value(num4)
+    Print ("Absolute value:", absValue)
+
+    // Test Exponential
+    Let num5 = 2
+    Let exponential = Exponential(num5)
+    Print ("Exponential:", exponential)
+
+    // Test Natural logarithm
+    Let num6 = 10
+    Let naturalLog = Natural logarithm(num6)
+    Print ("Natural logarithm:", naturalLog)
+
+    // Test Base 10 logarithm
+    Let num7 = 100
+    Let log10 = Base 10 logarithm(num7)
+    Print ("Base 10 logarithm:", log10)
+
+    // Test Minimum
+    Let min = Minimum(5, 10, 15)
+    Print ("Minimum:", min)
+
+    // Test Maximum
+    Let max = Maximum(5, 10, 15)
+    Print ("Maximum:", max)
+
+    // Test Power of
+    Let base = 2
+    Let exponent = 3
+    Let power = Power of(base, exponent)
+    Print ("Power:", power)
+
+    // Test Root
+    Let num8 = 16
+    Let squareRoot = Root(num8)
+    Print ("Square root:", squareRoot)
+
+    // Test Increment
+    Let num9 = 5
+    Increment(num9)
+    Print ("Incremented num9:", num9)
+
+    // Test Decrement
+    Let num10 = 10
+    Decrement(num10)
+    Print ("Decremented num10:", num10)
+Ends
 ```
 
 These examples demonstrate various basic algorithms implemented in the Algo syntax. Feel free to use them as reference for your projects or learning purposes.

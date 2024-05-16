@@ -14,14 +14,17 @@ This guide outlines the syntax rules and conventions for writing code in the pse
 - [5. Printing](#5-printing)
 - [6. Indentation](#6-indentation)
 - [7. Inbuilt Function Conversion](#7-inbuilt-function-conversion)
-- [8. Example](#8-example)
+- [8. Immediately Invoked Function Expression (IIFE)](#8-immediately-invoked-function-expression-iife)
+- [9. Example](#9-example)
 
 ## 1. Comments
 
 Comments in the algo are denoted by double forward slashes `//`. Anything following `//` on the same line is considered a comment and is ignored by the interpreter.
 
 ```
+
 // This is a comment
+
 ```
 
 ## 2. Functions
@@ -29,9 +32,11 @@ Comments in the algo are denoted by double forward slashes `//`. Anything follow
 Functions are declared using the `Start` keyword followed by the function name and parameters enclosed in parentheses. The function body is defined between `Start` and `End` keywords.
 
 ```
+
 Start functionName(param1, param2, ...)
-    // Function body
+// Function body
 End
+
 ```
 
 ## 3. Variables
@@ -39,8 +44,10 @@ End
 Variables can be declared using the `Const` or `Let` keyword followed by the variable name and its initial value.
 
 ```
+
 Const variableName = 10
 Let anotherVariable = "Hello"
+
 ```
 
 ## 4. Control Flow
@@ -50,13 +57,15 @@ Let anotherVariable = "Hello"
 Conditional statements are defined using the `If`, `Else If`, and `Else` keywords.
 
 ```
+
 If condition
-    // Code block executed if condition is true
- Else If anotherCondition
-    // Code block executed if anotherCondition is true
+// Code block executed if condition is true
+Else If anotherCondition
+// Code block executed if anotherCondition is true
 Else
-    // Code block executed if no previous conditions are true
+// Code block executed if no previous conditions are true
 End Else
+
 ```
 
 ### 4.2. Loops
@@ -64,13 +73,15 @@ End Else
 Loops can be implemented using the `While` and `For` keywords.
 
 ```
+
 While condition
-    // Code block executed while condition is true
+// Code block executed while condition is true
 End While
 
 For variable in range
-    // Code block executed for each value in the range
+// Code block executed for each value in the range
 End For
+
 ```
 
 ### 4.3. Switch Case
@@ -110,8 +121,22 @@ Inbuilt functions can be converted to their JavaScript equivalents:
 - `Base 10 logarithm` -> `Math.log10`
 - `Minimum` -> `Math.min`
 - `Maximum` -> `Math.max`
+- `Root` -> `Math.sqrt`
+- `Increment` -> `++`
+- `Decrement` -> `--`
+- `Power of` -> `Math.pow`
 
-## 8. Example
+## 8. Immediately Invoked Function Expression (IIFE)
+
+Algo supports Immediately Invoked Function Expressions (IIFE). You can use the `Run` keyword followed by parameters to create an IIFE.
+
+```
+Run( )
+    // Code block executed immediately
+Ends
+```
+
+## 9. Example
 
 ### Odd-Even Check
 

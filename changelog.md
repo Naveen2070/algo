@@ -19,3 +19,9 @@
 - Added support for built-in functions (in testing stage; currently supports a few built-in functions).
 - Added changelog.
 - Updated examples.
+
+## Version 1.0.4
+
+- Updated built-in functions to include new functionalities.
+- Improved support for Immediately Invoked Function Expressions (IIFE).
+- Updated documentation accordingly.
