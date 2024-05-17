@@ -110,7 +110,14 @@ While indentation is recommended for readability, it is not mandatory in the alg
 
 ## 7. Inbuilt Function Conversion
 
-Inbuilt functions can be converted to their JavaScript equivalents:
+Inbuilt functions can be converted to their JavaScript equivalents based on their type:
+
+### Unary Functions:
+
+- `Increment` -> `++`
+- `Decrement` -> `--`
+
+### Math Functions:
 
 - `Round up` -> `Math.ceil`
 - `Round down` -> `Math.floor`
@@ -122,9 +129,31 @@ Inbuilt functions can be converted to their JavaScript equivalents:
 - `Minimum` -> `Math.min`
 - `Maximum` -> `Math.max`
 - `Root` -> `Math.sqrt`
-- `Increment` -> `++`
-- `Decrement` -> `--`
 - `Power of` -> `Math.pow`
+
+### String Functions:
+
+- `To Uppercase` -> `String.toUpperCase()`
+- `To Lowercase` -> `String.toLowerCase()`
+- `Substring` -> `String.substring()`
+- `String Length` -> `String.length`
+- `Trim` -> `String.trim()`
+- `Index of` -> `String.indexOf()`
+- `Last Index of` -> `String.lastIndexOf()`
+- `Starts with` -> `String.startsWith()`
+- `Ends with` -> `String.endsWith()`
+- `Replace` -> `String.replace()`
+- `Split` -> `String.split()`
+- `Concat` -> `String.concat()`
+- `Includes` -> `String.includes()`
+- `Slice` -> `String.slice()`
+- `Substr` -> `String.substr()`
+- `Pad Start` -> `String.padStart()`
+- `Pad End` -> `String.padEnd()`
+- `Repeat` -> `String.repeat()`
+- `Replace All` -> `String.replaceAll()`
+- `Trim Start` -> `String.trimStart()`
+- `Trim End` -> `String.trimEnd()`
 
 ## 8. Immediately Invoked Function Expression (IIFE)
 

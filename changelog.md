@@ -25,3 +25,9 @@
 - Updated built-in functions to include new functionalities.
 - Improved support for Immediately Invoked Function Expressions (IIFE).
 - Updated documentation accordingly.
+
+## Version 1.0.5
+
+- Updated built-in functions to include all string methods from JavaScript.
+- Re-wrote the logic for handling built-in functions.
+- Updated documentation accordingly.

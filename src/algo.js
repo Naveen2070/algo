@@ -5,7 +5,7 @@ const path = require('path');
 const { program } = require('commander');
 const readline = require('readline');
 const { compileToJs } = require('./Compilers/js/compiler');
-const { compileToPython } = require('./Compilers/python/compiler');
+const { compileToPython } = require('./Compilers/python(In-Hold)/compiler');
 
 // Function to read configuration from config.lang file
 function readConfig(directory, callback) {

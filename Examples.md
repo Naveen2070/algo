@@ -300,4 +300,131 @@ Run main()
 Ends
 ```
 
+# Examples Using String Methods and IIFE
+
+```alg
+Run testStringMethods()
+    // Test To Uppercase
+    Let str1 = "hello, world!";
+    Let upperStr = To Uppercase(str1);
+    Print ("Uppercase:", upperStr)
+
+    // Test To Lowercase
+    Let str2 = "HELLO, WORLD!";
+    Let lowerStr = To Lowercase(str2);
+    Print ("Lowercase:", lowerStr)
+
+    // Test Substring
+    Let str3 = "Hello, world!";
+    Let subStr = Substring(str3, 0, 5);
+    Print ("Substring:", subStr)
+
+    // Test String Length
+    Let str4 = "Hello, world!";
+    Let strLength = String Length(str4);
+    Print ("String Length:", strLength)
+
+    // Test Char At
+    Let str5 = "Hello, world!";
+    Let char = Char At(str5, 7);
+    Print ("Character at index 7:", char)
+
+    // Test Char Code At
+    Let str6 = "Hello, world!";
+    Let charCode = Char Code At(str6, 0);
+    Print ("Character code at index 0:", charCode)
+
+    // Test At
+    Let str7 = "Hello, world!";
+    Let charAtIndex = At(str7, 0);
+    Print ("Character at index 0:", charAtIndex)
+
+    // Test Index Of
+    Let str8 = "Hello, world!";
+    Let indexOfW = Index of(str8, "world");
+    Print ("Index of 'world':", indexOfW)
+
+    // Test Last Index Of
+    Let str9 = "Hello, world! Hello again!";
+    Let lastIndexOfHello = Last Index of(str9, "Hello");
+    Print ("Last Index of 'Hello':", lastIndexOfHello)
+
+    // Test Starts With
+    Let str10 = "Hello, world!";
+    Let startsWithHello = Starts with(str10, "Hello");
+    Print ("Starts with 'Hello':", startsWithHello)
+
+    // Test Ends With
+    Let str11 = "Hello, world!";
+    Let endsWithWorld = Ends with(str11, "world!");
+    Print ("Ends with 'world!':", endsWithWorld)
+
+    // Test Replace
+    Let str12 = "Hello, world!";
+    Let replacedStr = Replace(str12, "world", "Algo");
+    Print ("Replaced String:", replacedStr)
+
+    // Test Split
+    Let str13 = "Hello, world!";
+    Let splitStr = Split(str13, ", ");
+    Print ("Split String:", splitStr)
+
+    // Test Concat
+    Let str14 = "Hello";
+    Let str15 = ", world!";
+    Let concatenatedStr = Concat(str14, str15);
+    Print ("Concatenated String:", concatenatedStr)
+
+    // Test Includes
+    Let str16 = "Hello, world!";
+    Let includesWorld = Includes(str16, "world");
+    Print ("Includes 'world':", includesWorld)
+
+    // Test Slice
+    Let str17 = "Hello, world!";
+    Let slicedStr = Slice(str17, 7, 12);
+    Print ("Sliced String:", slicedStr)
+
+    // Test Substr
+    Let str18 = "Hello, world!";
+    Let substrStr = Substr(str18, 7, 5);
+    Print ("Substring with start index 7 and length 5:", substrStr)
+
+    // Test Pad Start
+    Let str19 = "7";
+    Let paddedStr = Pad Start(str19, 5, "0");
+    Print ("Padded String at the start:", paddedStr)
+
+    // Test Pad End
+    Let str20 = "7";
+    Let paddedEndStr = Pad End(str20, 5, "0");
+    Print ("Padded String at the end:", paddedEndStr)
+
+    // Test Repeat
+    Let str21 = "Hello";
+    Let repeatedStr = Repeat(str21, 3);
+    Print ("Repeated String:", repeatedStr)
+
+    // Test Replace All
+    Let str22 = "Hello, world! Hello again!";
+    Let replacedAllStr = Replace All(str22, "Hello", "Hi");
+    Print ("Replaced All String:", replacedAllStr)
+
+    // Test Trim Start
+    Let str23 = "   Hello, world!   ";
+    Let trimmedStartStr = Trim Start(str23);
+    Print ("Trimmed String at the start:", trimmedStartStr)
+
+    // Test Trim End
+    Let str24 = " Hello, world! ";
+    Let trimmedEndStr = Trim End(str24);
+    Print ("Trimmed String at the end:", trimmedEndStr)
+
+    // Test Trim
+    Let str25 = " Hello, world! ";
+    Let trimmedStr = Trim(str25);
+    Print ("Trimmed String:", trimmedStr)
+Ends
+```
+
 These examples demonstrate various basic algorithms implemented in the Algo syntax. Feel free to use them as reference for your projects or learning purposes.
