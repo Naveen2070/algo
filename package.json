@@ -1,10 +1,13 @@
 {
   "name": "algo-complier",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Algo is a compiler designed to translate pseudo code written in a custom language to JavaScript. Currently, it's in its budding stage and supports limited conversion to JavaScript.",
   "main": "src/Compilers/js/algo.js",
   "author": "naveen_r_sam",
   "license": "BSD",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "commander": "^12.0.0"
   },
@@ -13,10 +16,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Naveen2070/algo"
+    "url": "https://github.com/Naveen2070/algo-complier"
   },
   "publishConfig": {
-    "name": "@naveen_r_sam/algo-complier",
-    "access": "public"
+    "registry": "https://npm.pkg.github.com/"
   }
 }
