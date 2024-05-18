@@ -14,7 +14,7 @@ function readConfig(directory, callback) {
     if (err) {
       if (err.code === 'ENOENT') {
         // No config file found, use default values
-        callback({ Language: 'Js', Version: 'default' });
+        callback({ Language: 'JavaScript', Format: 'js', Version: 'default' });
       } else {
         console.error('Error reading config file:', err);
       }
