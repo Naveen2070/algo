@@ -155,6 +155,31 @@ Inbuilt functions can be converted to their JavaScript equivalents based on thei
 - `Trim Start` -> `String.trimStart()`
 - `Trim End` -> `String.trimEnd()`
 
+### Array Functions:
+
+- `Push Last` -> `Array.push()`
+- `Pop Last` -> `Array.pop()`
+- `Pop First` -> `Array.shift()`
+- `Push First` -> `Array.unshift()`
+- `Slice` -> `Array.slice()`
+- `Splice` -> `Array.splice()`
+- `Concat` -> `Array.concat()`
+- `Join` -> `Array.join()`
+- `Reverse` -> `Array.reverse()`
+- `Sort` -> `Array.sort()`
+- `IndexOf` -> `Array.indexOf()`
+- `Last Index Of` -> `Array.lastIndexOf()`
+- `Includes` -> `Array.includes()`
+- `Every` -> `Array.every()`
+- `Some` -> `Array.some()`
+- `Filter` -> `Array.filter()`
+- `Map` -> `Array.map()`
+- `ForEach` -> `Array.forEach()`
+- `Reduce` -> `Array.reduce()`
+- `Reduce Right` -> `Array.reduceRight()`
+- `Find` -> `Array.find()`
+- `Find Index` -> `Array.findIndex()`
+
 ## 8. Immediately Invoked Function Expression (IIFE)
 
 Algo supports Immediately Invoked Function Expressions (IIFE). You can use the `Run` keyword followed by parameters to create an IIFE.

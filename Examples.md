@@ -230,7 +230,7 @@ Let num = 10
 decrementExample(num) // Decrement the number 10
 ```
 
-# Examples Using Built-in Functions and IIFE
+# Examples Using Built-in Functions with IIFE
 
 ```alg
 Run main()
@@ -300,7 +300,7 @@ Run main()
 Ends
 ```
 
-# Examples Using String Methods and IIFE
+# Examples Using String Methods with IIFE
 
 ```alg
 Run testStringMethods()
@@ -424,6 +424,104 @@ Run testStringMethods()
     Let str25 = " Hello, world! ";
     Let trimmedStr = Trim(str25);
     Print ("Trimmed String:", trimmedStr)
+Ends
+```
+
+# Examples Using Array Methods with IIFE
+
+```alg
+Run exampleArrayMethods()
+    // Define an array
+    Let numbers = [1, 2, 3, 4, 5]
+
+    // Push elements to the end of the array
+    Push Last(numbers, 6, 7)
+    Print ("Array after pushing elements to the end:", numbers)
+
+    // Pop the last element from the array
+    Pop Last(numbers)
+    Print ("Array after popping the last element:", numbers)
+
+    // Pop the first element from the array
+    Pop First(numbers)
+    Print ("Array after popping the first element:", numbers)
+
+    // Push elements to the beginning of the array
+    Push First(numbers, 1)
+    Print ("Array after pushing elements to the beginning:", numbers)
+
+    // Slice the array from index 1 to 3
+    Let slicedArray = Slice(numbers, 1, 3)
+    Print ("Sliced array:", slicedArray)
+
+    // Splice the array to remove elements from index 2 and insert elements 7, 8
+    Splice(numbers, 2, 1, 7, 8)
+    Print ("Array after splicing:", numbers)
+
+    // Concatenate arrays
+    Let moreNumbers = [9, 10]
+    Let concatenatedArray = Concat(numbers, moreNumbers)
+    Print ("Concatenated array:", concatenatedArray)
+
+    // Join array elements into a string using a separator
+    Let joinedString = Join(numbers, ', ')
+    Print ("Joined string:", joinedString)
+
+    // Reverse the array
+    Reverse(numbers)
+    Print ("Reversed array:", numbers)
+
+    // Sort the array
+    Sort(numbers)
+    Print ("Sorted array:", numbers)
+
+    // Find the index of element 7 in the array
+    Let index = IndexOf(numbers, 7)
+    Print ("Index of 7:", index)
+
+    // Find the last index of element 2 in the array
+    Let lastIndex = Last Index Of(numbers, 2)
+    Print ("Last index of 2:", lastIndex)
+
+    // Check if the array includes element 5
+    Let includesFive = Includes(numbers, 5)
+    Print ("Includes 5:", includesFive)
+
+    // Check if every element in the array is greater than 0
+    Let allGreaterThanZero = Every(numbers, (num) => num > 0)
+    Print ("All greater than 0:", allGreaterThanZero)
+
+    // Check if some elements in the array are greater than 7
+    Let someGreaterThanSeven = Some(numbers, (num) => num > 7)
+    Print ("Some greater than 7:", someGreaterThanSeven)
+
+    // Filter elements greater than 5 from the array
+    Let filteredArray = Filter(numbers, (num) => num > 5)
+    Print ("Filtered array:", filteredArray)
+
+    // Map each element to its square
+    Let squaredArray = Map(numbers, (num) => num * num)
+    Print ("Squared array:", squaredArray)
+
+    // Perform an operation on each element
+    ForEach(numbers, (num) =>
+    Print ("Current element:", num))
+
+    // Reduce the array to its sum
+    Let sum = Reduce(numbers, (acc, curr) => acc + curr, 0)
+    Print ("Sum of elements:", sum)
+
+    // Reduce the array from the right to its product
+    Let product = Reduce Right(numbers, (acc, curr) => acc * curr, 1)
+    Print ("Product of elements:", product)
+
+    // Find the first element greater than 5
+    Let firstGreaterThanFive = Find(numbers, (num) => num > 5)
+    Print ("First element greater than 5:", firstGreaterThanFive)
+
+    // Find the index of the first element greater than 5
+    Let firstIndexGreaterThanFive = Find Index(numbers, (num) => num > 5)
+    Print ("Index of first element greater than 5:", firstIndexGreaterThanFive)
 Ends
 ```
 

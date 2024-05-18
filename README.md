@@ -25,7 +25,7 @@ To get started with Algo, follow these steps:
 2. Install the required dependencies:
 
    ```bash
-   npm install -g
+   npm install
    ```
 
 3. Start using Algo to convert your pseudo code to JavaScript!

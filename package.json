@@ -17,8 +17,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Naveen2070/algo-complier"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   }
 }
