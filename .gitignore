@@ -7,6 +7,8 @@
 
 # testing
 /coverage
+/src/Compilers/js/temp
+/src/Compilers/js/log
 
 # Ignore algo_file 
 /algo_files
@@ -25,6 +27,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Ignore files with .alg extension
+# Ignore files with .alg extension and log file
 *.alg
 *.lang
