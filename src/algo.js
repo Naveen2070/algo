@@ -7,14 +7,19 @@ const readline = require('readline');
 const { compileToJs } = require('./Compilers/js/compiler');
 const { compileToPython } = require('./Compilers/python(In-Hold)/compiler');
 
-// Function to read configuration from config.lang file
-function readConfig(directory, callback) {
-  const configPath = path.join(directory, 'config.lang');
+// Function to read configuration from config.lang file in the root directory
+function readConfig(callback) {
+  const configPath = path.resolve('/', 'config.lang');
   fs.readFile(configPath, 'utf8', (err, data) => {
     if (err) {
       if (err.code === 'ENOENT') {
         // No config file found, use default values
-        callback({ Language: 'JavaScript', Format: 'js', Version: 'default' });
+        callback({
+          Language: 'JavaScript',
+          Format: 'js',
+          Version: 'default',
+          Coversion: 'default',
+        });
       } else {
         console.error('Error reading config file:', err);
       }
@@ -42,64 +47,47 @@ program
     const filePath = path.resolve(file);
     const fileDir = path.dirname(filePath);
 
-    readConfig(fileDir, (config) => {
-      fs.readFile(filePath, 'utf8', (err, data) => {
+    readConfig((config) => {
+      fs.readdir(fileDir, (err, files) => {
         if (err) {
-          console.error('Error reading file:', err);
+          console.error('Error reading directory:', err);
           return;
         }
-        const language = String(config.Language);
-        const format = String(config.Format);
 
-        const promptMessage = `Selected Language:${language}
-Select Mode (Convert or 1/Run or 2): `;
+        const algFiles = files.filter(
+          (f) => f.endsWith('.alg') && f !== 'output'
+        );
 
-        const rl = readline.createInterface({
-          input: process.stdin,
-          output: process.stdout,
-        });
-
-        rl.question(promptMessage, (outputType) => {
-          if (language.toLowerCase() === 'javascript') {
-            if (
-              outputType === '1' ||
-              outputType === 'Convert' ||
-              outputType === 'convert'
-            ) {
-              rl.question(`Enter file name (output.${format}):`, (fileName) => {
-                compileToJs(data, outputType, fileName, config);
-                rl.close();
-              });
-            } else if (
-              outputType === '2' ||
-              outputType === 'Run' ||
-              outputType === 'run'
-            ) {
-              compileToJs(data, outputType, config);
-              rl.close();
+        algFiles.forEach((algFile) => {
+          const fullPath = path.join(fileDir, algFile);
+          fs.readFile(fullPath, 'utf8', (err, data) => {
+            if (err) {
+              console.error('Error reading file:', err);
+              return;
             }
-          } else if (language.toLowerCase() === 'under-work') {
-            if (
-              outputType === '1' ||
-              outputType === 'Convert' ||
-              outputType === 'convert'
-            ) {
-              rl.question(`Enter file name (output.${format}):`, (fileName) => {
-                compileToPython(data, outputType, fileName, config);
-                rl.close();
-              });
-            } else if (
-              outputType === '2' ||
-              outputType === 'Run' ||
-              outputType === 'run'
-            ) {
-              compileToPython(data, outputType, config);
-              rl.close();
+            const language = String(config.Language);
+            const format = String(config.Format);
+
+            const outputType = 'convert'; // Default to convert mode
+
+            if (language.toLowerCase() === 'javascript') {
+              compileToJs(
+                data,
+                outputType,
+                algFile.replace('.alg', ''),
+                config
+              );
+            } else if (language.toLowerCase() === 'under-work') {
+              compileToPython(
+                data,
+                outputType,
+                algFile.replace('.alg', ''),
+                config
+              );
+            } else {
+              console.error('Unsupported language:', config.Language);
             }
-          } else {
-            console.error('Unsupported language:', config.Language);
-            rl.close();
-          }
+          });
         });
       });
     });
