@@ -49,6 +49,23 @@ To get started with Algo, follow these steps:
 
 4. The compiled JavaScript code will be generated according to your selections.
 
+```bash
+Usage: algo [options] <file>
+
+Options:
+  -v, --version  output the version number
+  -h, --help     display usage information
+
+Commands:
+  clean          clean log and temp folders in compilers directory
+
+Examples:
+  algo your_file.alg        Compile and execute the .alg file
+  algo clean                Clean log and temp folders in compilers directory
+  algo --version            To get the algo version
+  algo -h                   To get help
+```
+
 ## Example
 
 **Pseudo Code (example.alg):**
@@ -86,6 +103,7 @@ Algo reads configuration from a `config.lang` file in the project directory. If 
 - `Language`: The target language for conversion (e.g., JavaScript).
 - `Format`: The target language format for file creation (e.g., js for JavaScript).
 - `Version`: The version of the target language (optional).
+- `OutFolder`: Specifies the output folder name for converted files.
 
 ## Disclaimer
 

@@ -15,7 +15,8 @@ This guide outlines the syntax rules and conventions for writing code in the pse
 - [6. Indentation](#6-indentation)
 - [7. Inbuilt Function Conversion](#7-inbuilt-function-conversion)
 - [8. Immediately Invoked Function Expression (IIFE)](#8-immediately-invoked-function-expression-iife)
-- [9. Example](#9-example)
+- [9. Exports and Imports](#9-exports-and-imports)
+- [10. Example](#10-example)
 
 ## 1. Comments
 
@@ -190,7 +191,23 @@ Run( )
 Ends
 ```
 
-## 9. Example
+## 9. Exports and Imports
+
+Algo supports Exports and Imports of files using `Export` and `Import` keyword.
+
+### Exports:
+
+```
+Export param1, param2, ...
+```
+
+### Imports:
+
+```
+Import param1, param2, ... From path/to/file
+```
+
+## 10. Example
 
 ### Odd-Even Check
 

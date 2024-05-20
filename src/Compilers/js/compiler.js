@@ -18,7 +18,7 @@ function getLocalTimestamp() {
   return now.toLocaleString('en-GB', options);
 }
 
-function compileToJs(code, outputType, fileName, config) {
+function compileToJs(code, outputType, fileName, filePath, directory, config) {
   // Split the code into lines
   const lines = code.split('\n');
   let jsCode = '';
@@ -46,20 +46,23 @@ function compileToJs(code, outputType, fileName, config) {
     outputType === 'convert' ||
     outputType === '1'
   ) {
-    if (!fileName) fileName = 'output'; // Default file name
-    const algFilePath = path.resolve(fileName); // Get the absolute path of the .alg file
-    const algFileDir = path.dirname(algFilePath); // Get the directory of the .alg file
+    // Determine the relative path of the file relative to the root directory
+    const relativePath = path.relative(directory, filePath);
 
     // Use the specified output folder from config or default to 'output'
     const outFolder = config.OutFolder || 'output';
 
     // Create the output folder if it doesn't exist
-    const outputFolderPath = path.join(algFileDir, outFolder);
+    const outputFolderPath = path.join(
+      directory,
+      outFolder,
+      path.dirname(relativePath)
+    );
     if (!fs.existsSync(outputFolderPath)) {
       fs.mkdirSync(outputFolderPath, { recursive: true });
     }
 
-    const outputFile = path.parse(fileName);
+    const outputFile = path.parse(filePath);
     const outputFileName = path.join(outputFolderPath, `${outputFile.name}.js`); // Use the same name as the alg file with .js extension
     fs.writeFileSync(outputFileName, jsCode);
     console.log(`JavaScript file generated: ${outputFileName}`);
@@ -67,12 +70,22 @@ function compileToJs(code, outputType, fileName, config) {
 
     logToFile(logData);
   } else {
-    // Create a temporary file
-    const tempFolder = path.join(__dirname, 'temp');
+    // Create a temporary folder mirroring the input file structure
+    const relativePath = path.relative(directory, filePath);
+    const tempFolder = path.join(__dirname, 'temp', path.dirname(relativePath));
     if (!fs.existsSync(tempFolder)) {
       fs.mkdirSync(tempFolder, { recursive: true });
     }
-    const tempFileName = path.join(tempFolder, 'temp.js');
+
+    let tempFileName;
+    if (fileName) {
+      console.log(fileName);
+      const outputFile = path.parse(fileName);
+      tempFileName = path.join(tempFolder, `${outputFile.name}.js`);
+    } else {
+      tempFileName = path.join(tempFolder, `temp_${Date.now()}.js`); // Generate a unique temporary file name
+    }
+
     fs.writeFileSync(tempFileName, jsCode);
 
     // Execute the temporary file
@@ -96,6 +109,8 @@ function compileToJs(code, outputType, fileName, config) {
       // Delete the temporary file
       try {
         fs.unlinkSync(tempFileName);
+        // Remove empty parent directories recursively
+        removeEmptyParentDirectories(path.dirname(tempFileName));
       } catch (err) {
         console.error(`Error deleting temporary file: ${err.message}`);
       }
@@ -123,6 +138,18 @@ function logToFile(data) {
 
   // Write updated log entries to the log file
   fs.writeFileSync(logFilePath, JSON.stringify(logEntries, null, 2) + os.EOL);
+}
+
+function removeEmptyParentDirectories(directory) {
+  const parent = path.resolve(directory, '..');
+  if (
+    directory !== __dirname &&
+    fs.existsSync(directory) &&
+    fs.readdirSync(directory).length === 0
+  ) {
+    fs.rmdirSync(directory);
+    removeEmptyParentDirectories(parent);
+  }
 }
 
 module.exports = { compileToJs };

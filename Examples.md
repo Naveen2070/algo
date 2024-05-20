@@ -525,4 +525,63 @@ Run exampleArrayMethods()
 Ends
 ```
 
+# Example for Export and Import
+
+Sure, here's the properly formatted example for Export and Import in `.alg` pseudo code:
+
+**calculator.alg:**
+
+```alg
+Start add (num1, num2)
+  Return num1 + num2
+End
+
+Start subtract (num1, num2)
+  Return num1 - num2
+End
+
+Start multiply (num1, num2)
+  Return num1 * num2
+End
+
+Start divide (num1, num2)
+  If num2 == 0
+    Return "Error: Division by zero"
+  Else
+    Return num1 / num2
+  End If
+End
+
+Export add,subtract,multiply,divide
+```
+
+**main.alg:**
+
+```alg
+Import add, subtract, multiply, divide From /calculator
+
+Run main ()
+  Let addition = add(5, 3)
+  Print ("Addition result:", addition)
+
+  Let subtraction = subtract(5, 3)
+  Print ("Subtraction result:", subtraction)
+
+  Let multiplication = multiply(5, 3)
+  Print ("Multiplication result:", multiplication)
+
+  Let division = divide(5, 3)
+  Print ("Division result:", division)
+Ends
+
+```
+
+In this example:
+
+- The arithmetic operations (add, subtract, multiply, divide) are defined in `calculator.alg`.
+- Each function is exported using the `Export` keyword.
+- The `Export` statement at the end of `calculator.alg` exports all the functions.
+- In `main.alg`, the arithmetic functions are imported from `calculator.alg` using the `Import` keyword.
+- The imported functions are then used in the `main` function to perform calculations.
+
 These examples demonstrate various basic algorithms implemented in the Algo syntax. Feel free to use them as reference for your projects or learning purposes.

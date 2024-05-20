@@ -78,13 +78,29 @@ function checkKeyword(line, currentFunction) {
     return `break;\n`;
   });
 
-  checkedLine = checkedLine.replace(/^return\s+(.+)/, (match, value) => {
+  checkedLine = checkedLine.replace(/^Return\s+(.+)/, (match, value) => {
     if (currentFunction.name) {
       return `    return ${value};\n`;
     } else {
       return `return ${value};\n`;
     }
   });
+
+  // Check for Export keyword
+  if (checkedLine.startsWith('Export')) {
+    const functionName = line
+      .substring(line.indexOf(' ') + 1)
+      .trim()
+      .replace(/\(.*\)/, ''); // Remove parentheses and parameters
+    return `module.exports = { ${functionName || 'main'} };\n`;
+  }
+
+  // Check for Import keyword
+  if (checkedLine.startsWith('Import')) {
+    const [keyword, functionName, , modulePath] = line.split(/\s+/);
+    const importPath = modulePath.replace(/\/?$/, ''); // Remove trailing slash
+    return `const { ${functionName} } = require('.${importPath}');\n`;
+  }
 
   return checkBuiltInFunctions(checkedLine); // Send the reconstructed code to the built-in checker
 }
