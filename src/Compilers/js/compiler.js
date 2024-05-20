@@ -88,35 +88,8 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
 
     fs.writeFileSync(tempFileName, jsCode);
 
-    // Execute the temporary file
-    const { exec } = require('child_process');
-    exec(`node ${tempFileName}`, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error executing code: ${error.message}`);
-        logData.error = `Error executing code: ${error.message}`;
-        logToFile(logData);
-        return;
-      }
-      if (stderr) {
-        console.error(`Error output: ${stderr}`);
-        logData.error = `Error output: ${stderr}`;
-        logToFile(logData);
-        return;
-      }
-      console.log('Result:', stdout);
-      logData.result = stdout;
-
-      // Delete the temporary file
-      try {
-        fs.unlinkSync(tempFileName);
-        // Remove empty parent directories recursively
-        removeEmptyParentDirectories(path.dirname(tempFileName));
-      } catch (err) {
-        console.error(`Error deleting temporary file: ${err.message}`);
-      }
-
-      logToFile(logData);
-    });
+    // Execute temporary files
+    executeTempFiles([tempFileName], logData);
   }
 }
 
@@ -150,6 +123,39 @@ function removeEmptyParentDirectories(directory) {
     fs.rmdirSync(directory);
     removeEmptyParentDirectories(parent);
   }
+}
+
+function executeTempFiles(tempFilePaths, logData) {
+  tempFilePaths.forEach((tempFilePath) => {
+    const { exec } = require('child_process');
+    exec(`node ${tempFilePath}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing code: ${error.message}`);
+        logData.error = `Error executing code: ${error.message}`;
+        logToFile(logData);
+        return;
+      }
+      if (stderr) {
+        console.error(`Error output: ${stderr}`);
+        logData.error = `Error output: ${stderr}`;
+        logToFile(logData);
+        return;
+      }
+      console.log('Result:', stdout);
+      logData.result = stdout;
+
+      // Delete the temporary file
+      try {
+        fs.unlinkSync(tempFilePath);
+        // Remove empty parent directories recursively
+        removeEmptyParentDirectories(path.dirname(tempFilePath));
+      } catch (err) {
+        console.error(`Error deleting temporary file: ${err.message}`);
+      }
+
+      logToFile(logData);
+    });
+  });
 }
 
 module.exports = { compileToJs };
