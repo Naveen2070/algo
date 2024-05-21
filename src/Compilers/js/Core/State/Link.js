@@ -6,14 +6,20 @@ class Link {
   }
 
   async get() {
-    return new Promise((resolve) => {
+    if (this.value !== null) {
+      return this.value;
+    }
+    // Create a promise that resolves when the value is set
+    const value = await new Promise((resolve) => {
       this.subscribers.push(resolve);
     });
+    return value;
   }
 
   set(newValue) {
     this.value = newValue;
     this.subscribers.forEach((resolve) => resolve(newValue));
+    this.subscribers = []; // Clear subscribers after setting the value
   }
 
   destroy() {
@@ -21,10 +27,10 @@ class Link {
     this.subscribers = [];
     // Remove reference to value
     this.value = null;
-    // Remove reference to name
-    this.name = null;
     // Remove link from registry
     delete linkRegistry[this.name];
+    // Remove reference to name
+    this.name = null;
   }
 }
 

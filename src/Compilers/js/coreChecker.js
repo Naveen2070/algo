@@ -22,10 +22,7 @@ function processLink(line) {
 
   // Check for Get Link
   if (line.includes('Get Link')) {
-    return line.replace(
-      /Get Link\s*\(\s*["'](.+?)["']\s*\)/g,
-      'await $1.get()'
-    );
+    return line.replace(/Get Link\s*\(\s*["'](.+?)["']\s*\)/g, '$1.get()');
   }
 
   // Check for Unlink
