@@ -5,15 +5,14 @@ class Link {
     this.subscribers = [];
   }
 
-  async get() {
+  get() {
     if (this.value !== null) {
       return this.value;
     }
     // Create a promise that resolves when the value is set
-    const value = await new Promise((resolve) => {
+    return new Promise((resolve) => {
       this.subscribers.push(resolve);
     });
-    return value;
   }
 
   set(newValue) {

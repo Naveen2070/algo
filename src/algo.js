@@ -172,7 +172,12 @@ function cleanCompilersDirectory() {
 
 function deleteFolder(folderPath) {
   if (fs.existsSync(folderPath)) {
-    fs.rm(folderPath, () => true);
-    console.log(`Deleted ${folderPath}`);
+    fs.rm(folderPath, { recursive: true }, (err) => {
+      if (err) {
+        console.error(`Error deleting ${folderPath}:`, err);
+      } else {
+        console.log(`Deleted ${folderPath}`);
+      }
+    });
   }
 }
