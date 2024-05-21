@@ -13,7 +13,13 @@ function readConfig(directory, callback) {
     if (err) {
       if (err.code === 'ENOENT') {
         // No config file found, use default values
-        callback({ Language: 'JavaScript', Format: 'js', Version: 'default' });
+        callback({
+          Language: 'JavaScript',
+          Format: 'js',
+          Version: 'default',
+          OutFolder: 'output',
+          Mode: 'Production',
+        });
       } else {
         console.error('Error reading config file:', err);
       }
@@ -74,82 +80,59 @@ program
     readConfig(directory, (config) => {
       const language = String(config.Language);
 
-      const promptMessage = `Selected Language:${language}
-Select Mode (Convert or 1/Run or 2): `;
-
       const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
       });
 
-      rl.question(promptMessage, (outputType) => {
-        findAllAlgFiles(directory, (filePath) => {
-          fs.readFile(filePath, 'utf8', (err, data) => {
-            if (err) {
-              console.error('Error reading file:', err);
-              return;
-            }
+      function promptUser() {
+        const promptMessage = `Selected Language:${language}
+Select Mode (Convert or 1/Run or 2): `;
 
-            if (language.toLowerCase() === 'javascript') {
-              if (
-                outputType === '1' ||
-                outputType === 'Convert' ||
-                outputType === 'convert'
-              ) {
-                compileToJs(
-                  data,
-                  outputType,
-                  path.basename(filePath, '.alg'),
-                  filePath,
-                  directory,
-                  config
-                );
-              } else if (
-                outputType === '2' ||
-                outputType === 'Run' ||
-                outputType === 'run'
-              ) {
-                compileToJs(
-                  data,
-                  outputType,
-                  path.basename(filePath, '.alg'),
-                  filePath,
-                  directory,
-                  config
-                );
-              }
-            } else if (language.toLowerCase() === 'under-work') {
-              if (
-                outputType === '1' ||
-                outputType === 'Convert' ||
-                outputType === 'convert'
-              ) {
-                compileToPython(
-                  data,
-                  outputType,
-                  path.basename(filePath, '.alg'),
-                  config
-                );
-              } else if (
-                outputType === '2' ||
-                outputType === 'Run' ||
-                outputType === 'run'
-              ) {
-                compileToPython(
-                  data,
-                  outputType,
-                  path.basename(filePath, '.alg'),
-                  config
-                );
-              }
-            } else {
-              console.error('Unsupported language:', config.Language);
-            }
-          });
+        rl.question(promptMessage, (outputType) => {
+          if (
+            ['1', '2', 'Convert', 'convert', 'Run', 'run'].includes(outputType)
+          ) {
+            findAllAlgFiles(directory, (filePath) => {
+              fs.readFile(filePath, 'utf8', (err, data) => {
+                if (err) {
+                  console.error('Error reading file:', err);
+                  return;
+                }
+
+                if (language.toLowerCase() === 'javascript') {
+                  compileToJs(
+                    data,
+                    outputType,
+                    path.basename(filePath, '.alg'),
+                    filePath,
+                    directory,
+                    config
+                  );
+                } else if (language.toLowerCase() === 'under-work') {
+                  compileToPython(
+                    data,
+                    outputType,
+                    path.basename(filePath, '.alg'),
+                    config
+                  );
+                } else {
+                  console.error('Unsupported language:', config.Language);
+                }
+              });
+            });
+
+            rl.close();
+          } else {
+            console.error(
+              'Invalid option. Please select 1, 2, Convert, or Run.'
+            );
+            promptUser(); // Prompt again for valid input
+          }
         });
+      }
 
-        rl.close();
-      });
+      promptUser();
     });
   })
   .on('--help', () => {
@@ -189,7 +172,7 @@ function cleanCompilersDirectory() {
 
 function deleteFolder(folderPath) {
   if (fs.existsSync(folderPath)) {
-    fs.rmdirSync(folderPath, { recursive: true });
+    fs.rm(folderPath, () => true);
     console.log(`Deleted ${folderPath}`);
   }
 }

@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { processFunction } = require('./processFunction');
+const { processFunction, importChecker } = require('./processCode');
 const path = require('path');
 const os = require('os');
 
@@ -29,6 +29,9 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
     line = line.trim();
     jsCode += processFunction(line, currentFunction);
   }
+
+  // Add import statements if necessary
+  jsCode = importChecker(jsCode, config, outputType);
 
   const logData = {
     timestamp: new Date().toISOString(), // UTC timestamp
