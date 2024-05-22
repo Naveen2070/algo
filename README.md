@@ -16,10 +16,18 @@ Before using Algo, ensure you have Node.js installed on your system. You can dow
 
 To get started with Algo, follow these steps:
 
+For users, simply install the `algo-compiler` package via npm and start using it:
+
+```bash
+npm i algo-compiler
+```
+
+For developers,
+
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/algo-compiler.git
+   git clone https://github.com/Naveen2070/algo-compiler.git
    ```
 
 2. Install the required dependencies:
@@ -29,6 +37,21 @@ To get started with Algo, follow these steps:
    ```
 
 3. Start using Algo to convert your pseudo code to JavaScript!
+
+Happy coding!
+
+## Configuration
+
+The algorithm reads configuration from a `config.lang` file in the project directory. If no config file is found, default values are used. Configuration options include:
+
+- `Language`: The target language for conversion (e.g., JavaScript).
+- `Format`: The target language format for file creation (e.g., js for JavaScript).
+- `Version`: The version of the target language (optional).
+- `OutFolder`: Specifies the output folder name for converted files.
+- `EntryPoint`: Specifies the root path for converting or running files using the `run` and `convert` commands.
+- `Mode`: Specifies the mode of operation (e.g., Development).
+
+**Note:** The `EntryPoint` file must always be at the root of the project directory. This configuration option `Mode` is only for developers who clone and use the algo for development.
 
 ## Usage
 
@@ -57,6 +80,8 @@ Options:
   -h, --help     display usage information
 
 Commands:
+  run            Compile and execute the .alg files.
+  convert        Compile and convert the .alg files.
   clean          clean log and temp folders in compilers directory
 
 Examples:
@@ -96,22 +121,13 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 For detailed syntax guidelines, refer to [Documentation.md](Documentation.md).
 
-## Configuration
-
-Algo reads configuration from a `config.lang` file in the project directory. If no config file is found, default values are used. Configuration options include:
-
-- `Language`: The target language for conversion (e.g., JavaScript).
-- `Format`: The target language format for file creation (e.g., js for JavaScript).
-- `Version`: The version of the target language (optional).
-- `OutFolder`: Specifies the output folder name for converted files.
-
 ## Disclaimer
 
 **_Please note that Algo is still in its early stages of development, and the conversion capabilities are limited. There might be breaking changes in future updates. Use it with caution and report any bugs or issues you encounter._**
 
 ## Contact
 
-For any inquiries or support, feel free to contact the project maintainer at [naveenrameshcud@gmail.com](mailto:naveenrameshcud@gmail.com).
+For any inquiries or support, feel free to contact the project maintainer at [Gmail](mailto:naveenrameshcud@gmail.com).
 
 ---
 

@@ -101,10 +101,12 @@ function checkBuiltInFunctions(line) {
   });
 
   // Check for Print statement
-  const printMatch = checkedLine.match(/^Print\s*\(\s*(.+)\s*\)$/);
+  const printMatch = checkedLine.match(/(.*)\bPrint\s*\(\s*(.+)\s*\)(.*)/);
   if (printMatch) {
-    const content = printMatch[1];
-    checkedLine = `console.log(${content});\n`;
+    const beforePrint = printMatch[1].trim();
+    const content = printMatch[2].trim();
+    const afterPrint = printMatch[3].trim();
+    checkedLine = `${beforePrint} console.log(${content}); ${afterPrint}\n`;
   }
 
   return checkedLine + '\n'; // Return the modified line

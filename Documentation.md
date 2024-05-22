@@ -16,7 +16,9 @@ This guide outlines the syntax rules and conventions for writing code in the pse
 - [7. Inbuilt Function Conversion](#7-inbuilt-function-conversion)
 - [8. Immediately Invoked Function Expression (IIFE)](#8-immediately-invoked-function-expression-iife)
 - [9. Exports and Imports](#9-exports-and-imports)
-- [10. Example](#10-example)
+- [10. Algo Specific Features](#10-algo-specific-features)
+  - [10.1. Link](#101-link)
+- [11. Example](#11-example)
 
 ## 1. Comments
 
@@ -207,7 +209,20 @@ Export param1, param2, ...
 Import param1, param2, ... From path/to/file
 ```
 
-## 10. Example
+## 10. Algo Specific Features
+
+### 10.1. Link
+
+The Link feature allows you to create and manage named links to values.
+
+#### Syntax:
+
+- **New Link:** `New Link("myLink")`
+- **Set Link:** `Set Link(value, "myLink")`
+- **Get Link:** `Get Link("myLink")`
+- **Unlink:** `Unlink("myLink")`
+
+## 11. Example
 
 ### Odd-Even Check
 

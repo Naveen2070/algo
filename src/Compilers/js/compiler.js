@@ -68,7 +68,6 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
     const outputFile = path.parse(filePath);
     const outputFileName = path.join(outputFolderPath, `${outputFile.name}.js`); // Use the same name as the alg file with .js extension
     fs.writeFileSync(outputFileName, jsCode);
-    console.log(`JavaScript file generated: ${outputFileName}`);
     logData.result = `JavaScript file generated: ${outputFileName}`;
 
     logToFile(logData);
@@ -82,7 +81,6 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
 
     let tempFileName;
     if (fileName) {
-      console.log(fileName);
       const outputFile = path.parse(fileName);
       tempFileName = path.join(tempFolder, `${outputFile.name}.js`);
     } else {
@@ -91,8 +89,13 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
 
     fs.writeFileSync(tempFileName, jsCode);
 
-    // Execute temporary files
-    executeTempFiles([tempFileName], logData);
+    // Store the temp file paths to execute them later
+    logData.tempFilePaths = logData.tempFilePaths || [];
+    logData.tempFilePaths.push(tempFileName);
+  }
+
+  if (outputType === 'Run' || outputType === 'run' || outputType === '2') {
+    executeTempFiles(logData.tempFilePaths, logData);
   }
 }
 
@@ -129,6 +132,11 @@ function removeEmptyParentDirectories(directory) {
 }
 
 function executeTempFiles(tempFilePaths, logData) {
+  if (!tempFilePaths || tempFilePaths.length === 0) {
+    console.error('No temporary files to execute.');
+    return;
+  }
+
   tempFilePaths.forEach((tempFilePath) => {
     const { exec } = require('child_process');
     exec(`node ${tempFilePath}`, (error, stdout, stderr) => {

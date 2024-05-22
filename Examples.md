@@ -1,5 +1,31 @@
 # Examples of Algorithms in Algo Syntax
 
+## Table of Contents
+
+- [Factorial Calculation](#1-factorial-calculation)
+- [Prime Number Check](#2-prime-number-check)
+- [Bubble Sort](#3-bubble-sort)
+- [Fibonacci Sequence](#4-fibonacci-sequence)
+- [Linear Search](#5-linear-search)
+- [Binary Search](#6-binary-search)
+- [Examples Using Built-in Functions](#7-examples-using-built-in-functions)
+  - [Rounding Numbers](#71-rounding-numbers)
+  - [Finding Absolute Value](#72-finding-absolute-value)
+  - [Calculating Exponential](#73-calculating-exponential)
+  - [Finding Minimum and Maximum](#74-finding-minimum-and-maximum)
+  - [Power Calculation](#75-power-calculation)
+  - [Square Root Calculation](#76-square-root-calculation)
+  - [Increment Operator](#77-increment-operator)
+  - [Decrement Operator](#78-decrement-operator)
+- [Examples Using Built-in Functions with IIFE](#8-examples-using-built-in-functions-with-iife)
+- [Examples Using String Methods with IIFE](#9-examples-using-string-methods-with-iife)
+- [Examples Using Array Methods with IIFE](#10-examples-using-array-methods-with-iife)
+- [Example for Export and Import](#11-example-for-export-and-import)
+- [Example for Algo Specific Features](#12-example-for-algo-specific-features)
+  - [Link](#121-link)
+
+These examples cover a variety of algorithms and built-in functions, showcasing their implementation in the Algo syntax.
+
 ## 1. Factorial Calculation
 
 ### Algorithm
@@ -136,9 +162,9 @@ Start binarySearch(arr, x)
 End
 ```
 
-## Examples Using Built-in Functions
+## 7. Examples Using Built-in Functions
 
-### Example 1: Rounding Numbers
+### 7.1. Rounding Numbers
 
 ```alg
 Start roundExample(num)
@@ -149,7 +175,7 @@ End
 roundExample(3.7)
 ```
 
-### Example 2: Finding Absolute Value
+### 7.2. Finding Absolute Value
 
 ```alg
 Start absoluteExample(num)
@@ -160,7 +186,7 @@ End
 absoluteExample(-5)
 ```
 
-### Example 3: Calculating Exponential
+### 7.3. Calculating Exponential
 
 ```alg
 Start exponentialExample(num)
@@ -171,7 +197,7 @@ End
 exponentialExample(2)
 ```
 
-### Example 4: Finding Minimum and Maximum
+### 7.4. Finding Minimum and Maximum
 
 ```alg
 Start minMaxExample(num1, num2)
@@ -184,7 +210,7 @@ End
 minMaxExample(10, 20)
 ```
 
-### Example 5: Power Calculation
+### 7.5. Power Calculation
 
 ```alg
 Start powerExample(base, exponent)
@@ -195,7 +221,7 @@ End
 powerExample(2, 3) // Calculate 2 to the power of 3
 ```
 
-### Example 6: Square Root Calculation
+### 7.6. Square Root Calculation
 
 ```alg
 Start squareRootExample(number)
@@ -206,7 +232,7 @@ End
 squareRootExample(16) // Calculate the square root of 16
 ```
 
-### Example 7: Increment Operator
+### 7.7. Increment Operator
 
 ```alg
 Start incrementExample(number)
@@ -218,7 +244,7 @@ Let num = 5
 incrementExample(num) // Increment the number 5
 ```
 
-### Example 8: Decrement Operator
+### 7.8. Decrement Operator
 
 ```alg
 Start decrementExample(number)
@@ -230,7 +256,7 @@ Let num = 10
 decrementExample(num) // Decrement the number 10
 ```
 
-# Examples Using Built-in Functions with IIFE
+## 8. Examples Using Built-in Functions with IIFE
 
 ```alg
 Run main()
@@ -300,7 +326,7 @@ Run main()
 Ends
 ```
 
-# Examples Using String Methods with IIFE
+## 9. Examples Using String Methods with IIFE
 
 ```alg
 Run testStringMethods()
@@ -427,7 +453,7 @@ Run testStringMethods()
 Ends
 ```
 
-# Examples Using Array Methods with IIFE
+## 10. Examples Using Array Methods with IIFE
 
 ```alg
 Run exampleArrayMethods()
@@ -525,9 +551,7 @@ Run exampleArrayMethods()
 Ends
 ```
 
-# Example for Export and Import
-
-Sure, here's the properly formatted example for Export and Import in `.alg` pseudo code:
+## 11. Example for Export and Import
 
 **calculator.alg:**
 
@@ -583,5 +607,29 @@ In this example:
 - The `Export` statement at the end of `calculator.alg` exports all the functions.
 - In `main.alg`, the arithmetic functions are imported from `calculator.alg` using the `Import` keyword.
 - The imported functions are then used in the `main` function to perform calculations.
+
+## 12. Example for Algo Specific Features
+
+### 12.1. Link
+
+**Linked.alg:**
+
+```alg
+const result = Get Link("myLink")
+Print (result, "output")
+Unlink("myLink")
+New Link("myLink")
+const myLink = Link To("myLink")
+Set Link(10, "myLink")
+```
+
+- `Get Link("myLink")` retrieves the value associated with the link named "myLink".
+- `Print(result, "output")` displays the value retrieved from the link.
+- `Unlink("myLink")` removes the link named "myLink" from the link registry.
+- `New Link("myLink")` creates a new link named "myLink".
+- `Link To("myLink")` retrieves the link named "myLink" and assigns it to the variable `myLink`.
+- `Set Link(10, "myLink")` assigns the value `10` to the link named "myLink".
+
+This feature allows for dynamic referencing and storing of values within the Algo link registry, facilitating more complex algorithms and data manipulation.
 
 These examples demonstrate various basic algorithms implemented in the Algo syntax. Feel free to use them as reference for your projects or learning purposes.

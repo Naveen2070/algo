@@ -19,6 +19,7 @@ function readConfig(directory, callback) {
           Version: 'default',
           OutFolder: 'output',
           Mode: 'Production',
+          EntryPoint: 'main.alg',
         });
       } else {
         console.error('Error reading config file:', err);
@@ -62,11 +63,66 @@ function findAllAlgFiles(directory, callback) {
   });
 }
 
+function processFiles(directory, action) {
+  readConfig(directory, (config) => {
+    const language = String(config.Language);
+
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    findAllAlgFiles(directory, (filePath) => {
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          console.error('Error reading file:', err);
+          return;
+        }
+
+        if (language.toLowerCase() === 'javascript') {
+          compileToJs(
+            data,
+            action,
+            path.basename(filePath, '.alg'),
+            filePath,
+            directory,
+            config
+          );
+        } else if (language.toLowerCase() === 'under-work') {
+          compileToPython(
+            data,
+            outputType,
+            path.basename(filePath, '.alg'),
+            config
+          );
+        } else {
+          console.error('Unsupported language:', config.Language);
+        }
+      });
+    });
+  });
+}
+
 program
   .command('clean')
   .description('Delete log and temp folders in compilers directory')
   .action(() => {
     cleanCompilersDirectory();
+  });
+
+program
+  .command('run')
+  .description('Compile and execute the .alg files.')
+  .action(() => {
+    const directory = process.cwd();
+    processFiles(directory, 'Run');
+  });
+
+program
+  .command('convert')
+  .description('Compile and convert the .alg files.')
+  .action(() => {
+    const directory = process.cwd();
+    processFiles(directory, 'Convert');
   });
 
 program
@@ -121,8 +177,6 @@ Select Mode (Convert or 1/Run or 2): `;
                 }
               });
             });
-
-            rl.close();
           } else {
             console.error(
               'Invalid option. Please select 1, 2, Convert, or Run.'
@@ -140,9 +194,19 @@ Select Mode (Convert or 1/Run or 2): `;
     console.log('Examples:');
     console.log('  $ algo script.alg');
     console.log('  $ algo clean');
+    console.log('  $ algo run');
     console.log('  $ algo --help');
     console.log('  $ algo -v');
   });
+
+program.action((command) => {
+  console.error(`Unknown command: ${command}`);
+  console.log('Please use one of the following commands:');
+  console.log('  fileName.alg');
+  console.log('  clean');
+  console.log('  run');
+  console.log('  convert');
+});
 
 program.parse(process.argv);
 
