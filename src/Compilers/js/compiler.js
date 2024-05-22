@@ -1,9 +1,24 @@
 const fs = require('fs');
-const { processFunction } = require('./processFunction');
+const { processFunction, importChecker } = require('./processCode');
 const path = require('path');
 const os = require('os');
 
-function compileToJs(code, outputType, fileName, config) {
+// Helper function to format the local timestamp
+function getLocalTimestamp() {
+  const now = new Date();
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true,
+  };
+  return now.toLocaleString('en-GB', options);
+}
+
+function compileToJs(code, outputType, fileName, filePath, directory, config) {
   // Split the code into lines
   const lines = code.split('\n');
   let jsCode = '';
@@ -15,8 +30,12 @@ function compileToJs(code, outputType, fileName, config) {
     jsCode += processFunction(line, currentFunction);
   }
 
+  // Add import statements if necessary
+  jsCode = importChecker(jsCode, config, outputType);
+
   const logData = {
-    timestamp: new Date().toISOString(),
+    timestamp: new Date().toISOString(), // UTC timestamp
+    localTimestamp: getLocalTimestamp(), // Local timestamp
     action: outputType === 'Convert' ? 'Conversion' : 'Execution',
     codeFileName: fileName || 'output',
     language: 'JavaScript',
@@ -30,22 +49,95 @@ function compileToJs(code, outputType, fileName, config) {
     outputType === 'convert' ||
     outputType === '1'
   ) {
-    if (!fileName) fileName = 'output'; // Default file name
-    fs.writeFileSync(`${fileName}.${config.Format.toLowerCase()}`, jsCode);
-    console.log(
-      `JavaScript file generated: ${fileName}.${config.Format.toLowerCase()}`
-    );
-    logData.result = `JavaScript file generated: ${fileName}.${config.Format.toLowerCase()}`;
-  } else {
-    // Create a temporary file
-    const tempFolder = path.join(__dirname, 'temp');
-    if (!fs.existsSync(tempFolder)) {
-      fs.mkdirSync(tempFolder);
-    }
-    const tempFilePath = path.join(tempFolder, 'temp.js');
-    fs.writeFileSync(tempFilePath, jsCode);
+    // Determine the relative path of the file relative to the root directory
+    const relativePath = path.relative(directory, filePath);
 
-    // Execute the temporary file
+    // Use the specified output folder from config or default to 'output'
+    const outFolder = config.OutFolder || 'output';
+
+    // Create the output folder if it doesn't exist
+    const outputFolderPath = path.join(
+      directory,
+      outFolder,
+      path.dirname(relativePath)
+    );
+    if (!fs.existsSync(outputFolderPath)) {
+      fs.mkdirSync(outputFolderPath, { recursive: true });
+    }
+
+    const outputFile = path.parse(filePath);
+    const outputFileName = path.join(outputFolderPath, `${outputFile.name}.js`); // Use the same name as the alg file with .js extension
+    fs.writeFileSync(outputFileName, jsCode);
+    logData.result = `JavaScript file generated: ${outputFileName}`;
+
+    logToFile(logData);
+  } else {
+    // Create a temporary folder mirroring the input file structure
+    const relativePath = path.relative(directory, filePath);
+    const tempFolder = path.join(__dirname, 'temp', path.dirname(relativePath));
+    if (!fs.existsSync(tempFolder)) {
+      fs.mkdirSync(tempFolder, { recursive: true });
+    }
+
+    let tempFileName;
+    if (fileName) {
+      const outputFile = path.parse(fileName);
+      tempFileName = path.join(tempFolder, `${outputFile.name}.js`);
+    } else {
+      tempFileName = path.join(tempFolder, `temp_${Date.now()}.js`); // Generate a unique temporary file name
+    }
+
+    fs.writeFileSync(tempFileName, jsCode);
+
+    // Store the temp file paths to execute them later
+    logData.tempFilePaths = logData.tempFilePaths || [];
+    logData.tempFilePaths.push(tempFileName);
+  }
+
+  if (outputType === 'Run' || outputType === 'run' || outputType === '2') {
+    executeTempFiles(logData.tempFilePaths, logData);
+  }
+}
+
+function logToFile(data) {
+  const logFolder = path.join(__dirname, 'log');
+  if (!fs.existsSync(logFolder)) {
+    fs.mkdirSync(logFolder);
+  }
+  const logFilePath = path.join(logFolder, 'log.json');
+  let logEntries = [];
+
+  // Read existing log entries if log file exists
+  if (fs.existsSync(logFilePath)) {
+    const existingLogData = fs.readFileSync(logFilePath, 'utf-8');
+    logEntries = JSON.parse(existingLogData);
+  }
+
+  logEntries.push(data);
+
+  // Write updated log entries to the log file
+  fs.writeFileSync(logFilePath, JSON.stringify(logEntries, null, 2) + os.EOL);
+}
+
+function removeEmptyParentDirectories(directory) {
+  const parent = path.resolve(directory, '..');
+  if (
+    directory !== __dirname &&
+    fs.existsSync(directory) &&
+    fs.readdirSync(directory).length === 0
+  ) {
+    fs.rmdirSync(directory);
+    removeEmptyParentDirectories(parent);
+  }
+}
+
+function executeTempFiles(tempFilePaths, logData) {
+  if (!tempFilePaths || tempFilePaths.length === 0) {
+    console.error('No temporary files to execute.');
+    return;
+  }
+
+  tempFilePaths.forEach((tempFilePath) => {
     const { exec } = require('child_process');
     exec(`node ${tempFilePath}`, (error, stdout, stderr) => {
       if (error) {
@@ -64,21 +156,17 @@ function compileToJs(code, outputType, fileName, config) {
       logData.result = stdout;
 
       // Delete the temporary file
-      fs.unlinkSync(tempFilePath);
+      try {
+        fs.unlinkSync(tempFilePath);
+        // Remove empty parent directories recursively
+        removeEmptyParentDirectories(path.dirname(tempFilePath));
+      } catch (err) {
+        console.error(`Error deleting temporary file: ${err.message}`);
+      }
 
       logToFile(logData);
     });
-  }
-}
-
-function logToFile(data) {
-  const logFolder = path.join(__dirname, 'log');
-  if (!fs.existsSync(logFolder)) {
-    fs.mkdirSync(logFolder);
-  }
-  const logFilePath = path.join(logFolder, 'log.json');
-  const logEntry = JSON.stringify(data, null, 2);
-  fs.appendFileSync(logFilePath, logEntry + os.EOL);
+  });
 }
 
 module.exports = { compileToJs };

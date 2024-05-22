@@ -31,3 +31,15 @@
 - Updated built-in functions to include all string methods from JavaScript.
 - Re-wrote the logic for handling built-in functions.
 - Updated documentation accordingly.
+
+## Version 1.0.6
+
+- Updated built-in functions to include array methods from JavaScript.
+- Added Algo specific feature `Link`, allowing users to store values using a reference and access them anywhere in the code.
+- Now supports exporting and importing of files.
+- Added `OutFolder` in config to specify the output folder name.
+- Added `EntryPoint` in config.
+  - Now all `.alg` files in subdirectories of the entry point will be converted.
+- Added logger and temporary logic for execution and conversion.
+- Added `--version` (`-v`) to check version, `--help` (`-h`) for help, and `clean` command to clean the log and temp.
+- Updated documentation accordingly.
