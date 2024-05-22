@@ -99,6 +99,8 @@ function processFiles(directory, action) {
         }
       });
     });
+
+    rl.close();
   });
 }
 
@@ -177,6 +179,8 @@ Select Mode (Convert or 1/Run or 2): `;
                 }
               });
             });
+
+            rl.close();
           } else {
             console.error(
               'Invalid option. Please select 1, 2, Convert, or Run.'
@@ -198,15 +202,6 @@ Select Mode (Convert or 1/Run or 2): `;
     console.log('  $ algo --help');
     console.log('  $ algo -v');
   });
-
-program.action((command) => {
-  console.error(`Unknown command: ${command}`);
-  console.log('Please use one of the following commands:');
-  console.log('  fileName.alg');
-  console.log('  clean');
-  console.log('  run');
-  console.log('  convert');
-});
 
 program.parse(process.argv);
 
