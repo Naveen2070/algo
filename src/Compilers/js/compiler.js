@@ -44,58 +44,41 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
     error: '',
   };
 
-  if (
-    outputType === 'Convert' ||
-    outputType === 'convert' ||
-    outputType === '1'
-  ) {
-    // Determine the relative path of the file relative to the root directory
-    const relativePath = path.relative(directory, filePath);
+  // Determine the relative path of the file relative to the root directory
+  const relativePath = path.relative(directory, filePath);
 
-    // Use the specified output folder from config or default to 'output'
-    const outFolder = config.OutFolder || 'output';
+  // Use the specified output folder from config or default to 'output'
+  const outFolder = config.OutFolder || 'output';
 
-    // Create the output folder if it doesn't exist
-    const outputFolderPath = path.join(
-      directory,
-      outFolder,
-      path.dirname(relativePath)
-    );
-    if (!fs.existsSync(outputFolderPath)) {
-      fs.mkdirSync(outputFolderPath, { recursive: true });
-    }
-
-    const outputFile = path.parse(filePath);
-    const outputFileName = path.join(outputFolderPath, `${outputFile.name}.js`); // Use the same name as the alg file with .js extension
-    fs.writeFileSync(outputFileName, jsCode);
-    logData.result = `JavaScript file generated: ${outputFileName}`;
-
-    logToFile(logData);
-  } else {
-    // Create a temporary folder mirroring the input file structure
-    const relativePath = path.relative(directory, filePath);
-    const tempFolder = path.join(__dirname, 'temp', path.dirname(relativePath));
-    if (!fs.existsSync(tempFolder)) {
-      fs.mkdirSync(tempFolder, { recursive: true });
-    }
-
-    let tempFileName;
-    if (fileName) {
-      const outputFile = path.parse(fileName);
-      tempFileName = path.join(tempFolder, `${outputFile.name}.js`);
-    } else {
-      tempFileName = path.join(tempFolder, `temp_${Date.now()}.js`); // Generate a unique temporary file name
-    }
-
-    fs.writeFileSync(tempFileName, jsCode);
-
-    // Store the temp file paths to execute them later
-    logData.tempFilePaths = logData.tempFilePaths || [];
-    logData.tempFilePaths.push(tempFileName);
+  // Create the output folder if it doesn't exist
+  const outputFolderPath = path.join(
+    directory,
+    outFolder,
+    path.dirname(relativePath)
+  );
+  if (!fs.existsSync(outputFolderPath)) {
+    fs.mkdirSync(outputFolderPath, { recursive: true });
   }
 
+  const outputFile = path.parse(filePath);
+  const outputFileName = path.join(outputFolderPath, `${outputFile.name}.js`); // Use the same name as the alg file with .js extension
+  fs.writeFileSync(outputFileName, jsCode);
+  logData.result = `JavaScript file generated: ${outputFileName}`;
+
+  logToFile(logData);
+
+  // Create a temporary folder mirroring the input file structure
+  const tempFolder = path.join(__dirname, 'temp', path.dirname(relativePath));
+  if (!fs.existsSync(tempFolder)) {
+    fs.mkdirSync(tempFolder, { recursive: true });
+  }
+
+  // Store the temp file paths to execute them later
+  const tempFilePath = path.join(tempFolder, `${outputFile.name}.js`);
+  fs.writeFileSync(tempFilePath, jsCode);
+
   if (outputType === 'Run' || outputType === 'run' || outputType === '2') {
-    executeTempFiles(logData.tempFilePaths, logData);
+    executeTempFile(tempFilePath, logData);
   }
 }
 
@@ -119,6 +102,37 @@ function logToFile(data) {
   fs.writeFileSync(logFilePath, JSON.stringify(logEntries, null, 2) + os.EOL);
 }
 
+function executeTempFile(tempFilePath, logData) {
+  const { exec } = require('child_process');
+  exec(`node ${tempFilePath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing code: ${error.message}`);
+      logData.error = `Error executing code: ${error.message}`;
+      logToFile(logData);
+      return;
+    }
+    if (stderr) {
+      console.error(`Error output: ${stderr}`);
+      logData.error = `Error output: ${stderr}`;
+      logToFile(logData);
+      return;
+    }
+    console.log('Result:', stdout);
+    logData.result = stdout;
+
+    // Delete the temporary file
+    try {
+      fs.unlinkSync(tempFilePath);
+      // Remove empty parent directories recursively
+      removeEmptyParentDirectories(path.dirname(tempFilePath));
+    } catch (err) {
+      console.error(`Error deleting temporary file: ${err.message}`);
+    }
+
+    logToFile(logData);
+  });
+}
+
 function removeEmptyParentDirectories(directory) {
   const parent = path.resolve(directory, '..');
   if (
@@ -129,44 +143,6 @@ function removeEmptyParentDirectories(directory) {
     fs.rmdirSync(directory);
     removeEmptyParentDirectories(parent);
   }
-}
-
-function executeTempFiles(tempFilePaths, logData) {
-  if (!tempFilePaths || tempFilePaths.length === 0) {
-    console.error('No temporary files to execute.');
-    return;
-  }
-
-  tempFilePaths.forEach((tempFilePath) => {
-    const { exec } = require('child_process');
-    exec(`node ${tempFilePath}`, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error executing code: ${error.message}`);
-        logData.error = `Error executing code: ${error.message}`;
-        logToFile(logData);
-        return;
-      }
-      if (stderr) {
-        console.error(`Error output: ${stderr}`);
-        logData.error = `Error output: ${stderr}`;
-        logToFile(logData);
-        return;
-      }
-      console.log('Result:', stdout);
-      logData.result = stdout;
-
-      // Delete the temporary file
-      try {
-        fs.unlinkSync(tempFilePath);
-        // Remove empty parent directories recursively
-        removeEmptyParentDirectories(path.dirname(tempFilePath));
-      } catch (err) {
-        console.error(`Error deleting temporary file: ${err.message}`);
-      }
-
-      logToFile(logData);
-    });
-  });
 }
 
 module.exports = { compileToJs };
