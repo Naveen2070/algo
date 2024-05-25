@@ -8,6 +8,7 @@ const {
 function checkBuiltInFunctions(line) {
   const mathFunctions = [
     'Round up',
+    'Random',
     'Round down',
     'Round',
     'Absolute value',

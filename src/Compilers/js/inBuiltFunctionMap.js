@@ -3,6 +3,7 @@ const { splitArrayAtFirstComma } = require('../../util/commanCheckers');
 function convertMathFunction(funcName, args) {
   const jsFunction = {
     'Round up': 'Math.ceil',
+    Random: 'Math.random',
     'Round down': 'Math.floor',
     Round: 'Math.round',
     'Absolute value': 'Math.abs',
