@@ -9,7 +9,8 @@ class Link {
     this.func = null; // To store a function
   }
 
-  get() {
+  async get() {
+    await loadLinksFromFile();
     if (this.value !== null) {
       return this.value;
     }
@@ -19,19 +20,11 @@ class Link {
     });
   }
 
-  set(newValue) {
+  async set(newValue) {
     this.value = newValue;
     this.subscribers.forEach((resolve) => resolve(newValue));
     this.subscribers = []; // Clear subscribers after setting the value
-  }
-
-  async save() {
-    const links = await loadLinks();
-    links[this.name] = {
-      value: this.value,
-      func: this.func ? this.func.toString() : null,
-    };
-    await saveLinks(links);
+    await saveLinksToFile();
   }
 
   storeFunction(func) {
@@ -60,61 +53,73 @@ class Link {
     // Remove reference to name
     this.name = null;
     this.func = null; // Remove reference to the stored function
-
-    try {
-      // Load links from JSON file
-      const links = await loadLinks();
-
-      // Remove the link from the loaded links
-      delete links[this.name];
-
-      // Save the updated links back to the file
-      await saveLinks(links);
-    } catch (error) {
-      console.error('Error while destroying link:', error);
-    }
+    await saveLinksToFile();
+    await checkAndDeleteJsonFile();
   }
 }
 
 // Global registry of links
 const linkRegistry = {};
+const jsonFilePath = path.join(__dirname, 'links.json');
 
 // Function to create and register a new link
 async function createLink(name) {
+  await loadLinksFromFile();
   if (linkRegistry[name]) {
     console.warn(`Link with name "${name}" already exists.`);
     return linkRegistry[name];
   }
   const link = new Link(name);
   linkRegistry[name] = link;
+  await saveLinksToFile();
   return link;
 }
 
 // Function to retrieve a link by its name
-function getLink(name) {
+async function getLink(name) {
+  await loadLinksFromFile();
   return linkRegistry[name];
 }
 
-// Function to load links from a JSON file
-async function loadLinks() {
-  const filePath = path.join(__dirname, 'links.json');
-  try {
-    const data = await fs.promises.readFile(filePath, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      // File does not exist, return an empty object
-      return {};
-    }
-    throw error;
+// Load links from the JSON file
+async function loadLinksFromFile() {
+  if (fs.existsSync(jsonFilePath)) {
+    const data = await fs.promises.readFile(jsonFilePath, 'utf8');
+    const json = JSON.parse(data);
+    Object.keys(json).forEach((key) => {
+      const link = new Link(key);
+      link.value = json[key].value;
+      link.func = json[key].func
+        ? new Function(`return ${json[key].func}`)()
+        : null;
+      linkRegistry[key] = link;
+    });
   }
 }
 
-// Function to save links to a JSON file
-async function saveLinks(links) {
-  const filePath = path.join(__dirname, 'links.json');
-  const data = JSON.stringify(links, null, 2);
-  await fs.promises.writeFile(filePath, data, 'utf8');
+// Save links to the JSON file
+async function saveLinksToFile() {
+  const json = {};
+  Object.keys(linkRegistry).forEach((key) => {
+    json[key] = {
+      value: linkRegistry[key].value,
+      func: linkRegistry[key].func ? linkRegistry[key].func.toString() : null,
+    };
+  });
+  await fs.promises.writeFile(
+    jsonFilePath,
+    JSON.stringify(json, null, 2),
+    'utf8'
+  );
+}
+
+// Check and delete the JSON file if it's empty
+async function checkAndDeleteJsonFile() {
+  if (Object.keys(linkRegistry).length === 0) {
+    if (fs.existsSync(jsonFilePath)) {
+      await fs.promises.unlink(jsonFilePath);
+    }
+  }
 }
 
 module.exports = { createLink, getLink };
