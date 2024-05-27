@@ -9,20 +9,27 @@ class Link {
     this.func = null; // To store a function
   }
 
-  get() {
+  async get() {
     if (this.value !== null) {
       return this.value;
     }
+
+    const links = await loadLinks();
+    if (links[this.name] && links[this.name].value !== null) {
+      return links[this.name].value;
+    }
+
     // Create a promise that resolves when the value is set
     return new Promise((resolve) => {
       this.subscribers.push(resolve);
     });
   }
 
-  set(newValue) {
+  async set(newValue) {
     this.value = newValue;
     this.subscribers.forEach((resolve) => resolve(newValue));
     this.subscribers = []; // Clear subscribers after setting the value
+    await this.save();
   }
 
   async save() {
@@ -68,8 +75,18 @@ class Link {
       // Remove the link from the loaded links
       delete links[this.name];
 
-      // Save the updated links back to the file
-      await saveLinks(links);
+      // Check if all links are null or empty
+      const hasLinks = Object.values(links).some(
+        (link) => link !== null && link.value !== null
+      );
+
+      if (!hasLinks) {
+        // If no links are present, delete the JSON file
+        await fs.promises.unlink(getFilePath());
+      } else {
+        // Save the updated links back to the file
+        await saveLinks(links);
+      }
     } catch (error) {
       console.error('Error while destroying link:', error);
     }
@@ -87,17 +104,39 @@ async function createLink(name) {
   }
   const link = new Link(name);
   linkRegistry[name] = link;
+  await link.save(); // Save the link when it's created
   return link;
 }
 
 // Function to retrieve a link by its name
-function getLink(name) {
-  return linkRegistry[name];
+async function getLink(name) {
+  if (linkRegistry[name]) {
+    return linkRegistry[name];
+  }
+
+  const links = await loadLinks();
+  if (links[name]) {
+    const link = new Link(name);
+    link.value = links[name].value;
+    if (links[name].func) {
+      link.func = new Function('return ' + links[name].func)();
+    }
+    linkRegistry[name] = link;
+    return link;
+  }
+
+  return null;
+}
+
+// Function to get the file path for the links JSON file
+function getFilePath() {
+  // Store the file in the user's project directory as .AlgoTools
+  return path.join(process.cwd(), '.AlgoTools', 'links.json');
 }
 
 // Function to load links from a JSON file
 async function loadLinks() {
-  const filePath = path.join(__dirname, 'links.json');
+  const filePath = getFilePath();
   try {
     const data = await fs.promises.readFile(filePath, 'utf8');
     return JSON.parse(data);
@@ -112,8 +151,9 @@ async function loadLinks() {
 
 // Function to save links to a JSON file
 async function saveLinks(links) {
-  const filePath = path.join(__dirname, 'links.json');
+  const filePath = getFilePath();
   const data = JSON.stringify(links, null, 2);
+  await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
   await fs.promises.writeFile(filePath, data, 'utf8');
 }
 
