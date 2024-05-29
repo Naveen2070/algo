@@ -9,6 +9,7 @@
 /coverage
 /src/Compilers/js/temp
 /src/Compilers/js/log
+/src/Compilers/js/Core/State/links.json
 
 # Ignore algo_file 
 /algo_files
