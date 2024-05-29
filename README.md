@@ -42,7 +42,7 @@ Happy coding!
 
 ## Configuration
 
-The algorithm reads configuration from a `config.lang` file in the project directory. If no config file is found, default values are used. Configuration options include:
+The algo reads configuration from a `config.lang` file in the project directory. If no config file is found, default values are used. Configuration options include:
 
 - `Language`: The target language for conversion (e.g., JavaScript).
 - `Format`: The target language format for file creation (e.g., js for JavaScript).
