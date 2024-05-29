@@ -50,6 +50,7 @@ function processFunction(line, currentFunction) {
 }
 
 function importChecker(code, config, outputType) {
+  console.log(config);
   const lines = code.split('\n');
   let createLinkFound = false;
   let getLinkFound = false;

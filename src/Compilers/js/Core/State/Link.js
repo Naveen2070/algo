@@ -95,11 +95,9 @@ class Link {
 
 // Global registry of links
 const linkRegistry = {};
-const jsonFilePath = path.join(__dirname, 'links.json');
 
 // Function to create and register a new link
 async function createLink(name) {
-  await loadLinksFromFile();
   if (linkRegistry[name]) {
     console.warn(`Link with name "${name}" already exists.`);
     return linkRegistry[name];
