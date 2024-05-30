@@ -45,7 +45,7 @@ function processFunction(line, currentFunction) {
   // Check for Link keywords
   line = processLink(line);
 
-  line = processAsyncFunction(line);
+  line = processAsyncFunction(line, currentFunction);
 
   // Check for regular statements
   return checkKeyword(line, currentFunction);
