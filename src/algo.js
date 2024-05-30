@@ -210,7 +210,7 @@ rl.on('line', (input) => {
   if (input.trim().toLowerCase() === 'exit') {
     rl.close();
   } else {
-    console.log(`Received: ${input}`);
+    program.parse(input.split(' '), { from: 'user' });
     rl.prompt();
   }
 });
