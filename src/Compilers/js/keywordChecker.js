@@ -17,6 +17,9 @@ function checkKeyword(line, currentFunction) {
     checkedLine = `console.log(${content});\n`;
   }
 
+  // Handle Sync keyword
+  checkedLine = checkedLine.replace(/\bSync\s+(\w+)/, 'await $1');
+
   // Check for keywords and perform replacements
   checkedLine = checkedLine.replace(
     /^(Const)\s+(\w+)\s*=\s*(.+)/,
