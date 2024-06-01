@@ -5,93 +5,99 @@ This guide outlines the syntax rules and conventions for writing code in the pse
 ## Table of Contents
 
 - [1. Comments](#1-comments)
-- [2. Functions](#2-functions)
-- [3. Variables](#3-variables)
-- [4. Control Flow](#4-control-flow)
-  - [4.1. Conditionals](#41-conditionals)
-  - [4.2. Loops](#42-loops)
-  - [4.3. Switch Case](#43-switch-case)
-- [5. Printing](#5-printing)
-- [6. Indentation](#6-indentation)
-- [7. Inbuilt Function Conversion](#7-inbuilt-function-conversion)
-- [8. Immediately Invoked Function Expression (IIFE)](#8-immediately-invoked-function-expression-iife)
-- [9. Exports and Imports](#9-exports-and-imports)
-- [10. Algo Specific Features](#10-algo-specific-features)
-  - [10.1. Link](#101-link)
-- [11. Example](#11-example)
+- [2. Async Functions](#2-async-functions)
+- [3. Functions](#3-functions)
+- [4. Variables](#4-variables)
+- [5. Control Flow](#5-control-flow)
+  - [5.1. Conditionals](#51-conditionals)
+  - [5.2. Loops](#52-loops)
+  - [5.3. Switch Case](#53-switch-case)
+- [6. Printing](#6-printing)
+- [7. Indentation](#7-indentation)
+- [8. Inbuilt Function Conversion](#8-inbuilt-function-conversion)
+  - [8.1. Unary Functions](#81-unary-functions)
+  - [8.2. Math Functions](#82-math-functions)
+  - [8.3. String Functions](#83-string-functions)
+  - [8.4. Array Functions](#84-array-functions)
+- [9. Immediately Invoked Function Expression (IIFE)](#9-immediately-invoked-function-expression-iife)
+- [10. Exports and Imports](#10-exports-and-imports)
+- [11. Algo Specific Features](#11-algo-specific-features)
+  - [11.1. Link](#111-link)
+- [12. Example](#12-example)
 
 ## 1. Comments
 
-Comments in the algo are denoted by double forward slashes `//`. Anything following `//` on the same line is considered a comment and is ignored by the interpreter.
+Comments in Algo are denoted by double forward slashes `//`. Anything following `//` on the same line is considered a comment and is ignored by the interpreter.
 
-```
-
+```algo
 // This is a comment
-
 ```
 
-## 2. Functions
+## 2. Async Functions
+
+Async functions are defined using the `Delay` keyword, which allows for asynchronous operations. You can wait for the result using the `Sync` keyword.
+
+```algo
+Delay main()
+    const a = Sync result()
+    return a
+End
+```
+
+## 3. Functions
 
 Functions are declared using the `Start` keyword followed by the function name and parameters enclosed in parentheses. The function body is defined between `Start` and `End` keywords.
 
-```
-
+```algo
 Start functionName(param1, param2, ...)
 // Function body
 End
-
 ```
 
-## 3. Variables
+## 4. Variables
 
 Variables can be declared using the `Const` or `Let` keyword followed by the variable name and its initial value.
 
-```
-
+```algo
 Const variableName = 10
 Let anotherVariable = "Hello"
-
 ```
 
-## 4. Control Flow
+## 5. Control Flow
 
-### 4.1. Conditionals
+### 5.1. Conditionals
 
 Conditional statements are defined using the `If`, `Else If`, and `Else` keywords.
 
-```
-
+```algo
 If condition
-// Code block executed if condition is true
+    // Code block executed if condition is true
 Else If anotherCondition
-// Code block executed if anotherCondition is true
+    // Code block executed if anotherCondition is true
 Else
-// Code block executed if no previous conditions are true
+    // Code block executed if no previous conditions are true
 End Else
-
 ```
 
-### 4.2. Loops
+### 5.2. Loops
 
 Loops can be implemented using the `While` and `For` keywords.
 
-```
-
+```algo
 While condition
-// Code block executed while condition is true
+    // Code block executed while condition is true
 End While
 
 For variable in range
-// Code block executed for each value in the range
+    // Code block executed for each value in the range
 End For
-
 ```
 
-### 4.3. Switch Case
+### 5.3. Switch Case
 
 Switch case statements are defined using the `Switch to`, `When`, and `Usually` keywords.
 
-```compileToJs
+```algo
 Switch to variable
     When condition:
         // Code block executed when condition is met
@@ -99,28 +105,28 @@ Switch to variable
 End Switch
 ```
 
-## 5. Printing
+## 6. Printing
 
 Output can be printed to the console using the `Print` statement.
 
+```algo
+Print('Hello, world!');
 ```
-Print ('Hello, world!');
-```
 
-## 6. Indentation
+## 7. Indentation
 
-While indentation is recommended for readability, it is not mandatory in the algo. However, consistent indentation is encouraged to enhance code clarity.
+While indentation is recommended for readability, it is not mandatory in Algo. However, consistent indentation is encouraged to enhance code clarity.
 
-## 7. Inbuilt Function Conversion
+## 8. Inbuilt Function Conversion
 
 Inbuilt functions can be converted to their JavaScript equivalents based on their type:
 
-### Unary Functions:
+### 8.1. Unary Functions
 
 - `Increment` -> `++`
 - `Decrement` -> `--`
 
-### Math Functions:
+### 8.2. Math Functions
 
 - `Round up` -> `Math.ceil`
 - `Round down` -> `Math.floor`
@@ -134,7 +140,7 @@ Inbuilt functions can be converted to their JavaScript equivalents based on thei
 - `Root` -> `Math.sqrt`
 - `Power of` -> `Math.pow`
 
-### String Functions:
+### 8.3. String Functions
 
 - `To Uppercase` -> `String.toUpperCase()`
 - `To Lowercase` -> `String.toLowerCase()`
@@ -158,7 +164,7 @@ Inbuilt functions can be converted to their JavaScript equivalents based on thei
 - `Trim Start` -> `String.trimStart()`
 - `Trim End` -> `String.trimEnd()`
 
-### Array Functions:
+### 8.4. Array Functions
 
 - `Push Last` -> `Array.push()`
 - `Pop Last` -> `Array.pop()`
@@ -170,7 +176,7 @@ Inbuilt functions can be converted to their JavaScript equivalents based on thei
 - `Join` -> `Array.join()`
 - `Reverse` -> `Array.reverse()`
 - `Sort` -> `Array.sort()`
-- `IndexOf` -> `Array.indexOf()`
+- `Index Of` -> `Array.indexOf()`
 - `Last Index Of` -> `Array.lastIndexOf()`
 - `Includes` -> `Array.includes()`
 - `Every` -> `Array.every()`
@@ -183,55 +189,74 @@ Inbuilt functions can be converted to their JavaScript equivalents based on thei
 - `Find` -> `Array.find()`
 - `Find Index` -> `Array.findIndex()`
 
-## 8. Immediately Invoked Function Expression (IIFE)
+## 9. Immediately Invoked Function Expression (IIFE)
 
 Algo supports Immediately Invoked Function Expressions (IIFE). You can use the `Run` keyword followed by parameters to create an IIFE.
 
-```
-Run( )
+```algo
+Run()
     // Code block executed immediately
 Ends
 ```
 
-## 9. Exports and Imports
+## 10. Exports and Imports
 
-Algo supports Exports and Imports of files using `Export` and `Import` keyword.
+Algo supports Exports and Imports of files using the `Export` and `Import` keywords.
 
-### Exports:
+### Exports
 
-```
+```algo
 Export param1, param2, ...
 ```
 
-### Imports:
+### Imports
 
-```
+```algo
 Import param1, param2, ... From path/to/file
 ```
 
-## 10. Algo Specific Features
+## 11. Algo Specific Features
 
-### 10.1. Link
+### 11.1. Link
 
-The Link feature allows you to create and manage named links to values.
+The Link feature allows you to create and manage named links to values and functions. Link operations are asynchronous, so they must be used in async functions and awaited for the result.
 
-#### Syntax:
+#### Syntax
 
 - **New Link:** `New Link("myLink")`
 - **Set Link:** `Set Link(value, "myLink")`
 - **Get Link:** `Get Link("myLink")`
 - **Unlink:** `Unlink("myLink")`
 
-## 11. Example
+#### Example
+
+```algo
+Delay main()
+    // Creating a new link
+    Sync New Link("myLink")
+
+    // Setting a value to the link
+    Sync Set Link(42, "myLink")
+
+    // Getting the value from the link
+    const value = Sync Get Link("myLink")
+    Print(value) // Output: 42
+
+    // Unlinking
+    Sync Unlink("myLink")
+End
+```
+
+## 12. Example
 
 ### Odd-Even Check
 
-```
+```algo
 Start oddEven(num)
     If num % 2 == 0
-        Print (num, ' is even')
+        Print(num, ' is even')
     Else
-        Print (num, ' is odd')
+        Print(num, ' is odd')
     End If
 End
 oddEven(8)
@@ -239,4 +264,4 @@ oddEven(8)
 
 ---
 
-This documentation provides a basic overview of the syntax and structure of algo. Refer to specific [examples](Examples.md) or documentation for more detailed usage and features.
+This documentation provides a basic overview of the syntax and structure of Algo. Refer to specific [examples](Examples.md) or documentation for more detailed usage and features.

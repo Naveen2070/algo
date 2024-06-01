@@ -23,6 +23,7 @@
 - [Example for Export and Import](#11-example-for-export-and-import)
 - [Example for Algo Specific Features](#12-example-for-algo-specific-features)
   - [Link](#121-link)
+  - [Link Across Files](#122-link-across-files)
 
 These examples cover a variety of algorithms and built-in functions, showcasing their implementation in the Algo syntax.
 
@@ -614,13 +615,21 @@ In this example:
 
 **Linked.alg:**
 
-```alg
-const result = Get Link("myLink")
-Print (result, "output")
-Unlink("myLink")
-New Link("myLink")
-const myLink = Link To("myLink")
-Set Link(10, "myLink")
+```algo
+Delay main()
+    // Creating a new link
+    Sync New Link("myLink")
+
+    // Setting a value to the link
+    Sync Set Link(42, "myLink")
+
+    // Getting the value from the link
+    const value = Sync Get Link("myLink")
+    Print(value) // Output: 42
+
+    // Unlinking
+    Sync Unlink("myLink")
+End
 ```
 
 - `Get Link("myLink")` retrieves the value associated with the link named "myLink".
@@ -631,5 +640,48 @@ Set Link(10, "myLink")
 - `Set Link(10, "myLink")` assigns the value `10` to the link named "myLink".
 
 This feature allows for dynamic referencing and storing of values within the Algo link registry, facilitating more complex algorithms and data manipulation.
+
+### 12.2. Link Across Files
+
+The Link feature can be used to create and manage values across different files. This allows for data sharing between separate code modules. Below is an example demonstrating how to create a link in one file and access it in another.
+
+**Linked.alg**
+
+```algo
+Delay link()
+    // Getting the value from the link
+    const value = Sync Get Link("myLink")
+    Print(value) // Output: 42
+
+    // Unlinking
+    Sync Unlink("myLink")
+End
+link()
+```
+
+**Main.alg**
+
+```algo
+Delay main()
+    // Creating a new link
+    Sync New Link("myLink")
+    // Setting a value to the link
+    Sync Set Link(42, "myLink")
+End
+main()
+```
+
+### Explanation
+
+In the above example, `Main.alg` is used to create a new link named `myLink` and set its value to 42. The `Linked.alg` file then accesses this link, retrieves the value, prints it, and finally unlinks it.
+
+1. **Main.alg**:
+
+   - Defines an async function `main()` that creates a new link named `myLink` and sets its value to 42.
+   - The `main()` function is executed to initialize the link.
+
+2. **Linked.alg**:
+   - Defines an async function `link()` that retrieves the value from `myLink`, prints it, and then unlinks it.
+   - The `link()` function is executed to access and manage the link.
 
 These examples demonstrate various basic algorithms implemented in the Algo syntax. Feel free to use them as reference for your projects or learning purposes.

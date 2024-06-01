@@ -19,7 +19,6 @@ function getLocalTimestamp() {
 }
 
 function compileToJs(code, outputType, fileName, filePath, directory, config) {
-  // Split the code into lines
   const lines = code.split('\n');
   let jsCode = '';
 
@@ -30,12 +29,11 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
     jsCode += processFunction(line, currentFunction);
   }
 
-  // Add import statements if necessary
   jsCode = importChecker(jsCode, config, outputType);
 
   const logData = {
-    timestamp: new Date().toISOString(), // UTC timestamp
-    localTimestamp: getLocalTimestamp(), // Local timestamp
+    timestamp: new Date().toISOString(),
+    localTimestamp: getLocalTimestamp(),
     action: outputType === 'Convert' ? 'Conversion' : 'Execution',
     codeFileName: fileName || 'output',
     language: 'JavaScript',
@@ -49,13 +47,8 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
     outputType === 'convert' ||
     outputType === '1'
   ) {
-    // Determine the relative path of the file relative to the root directory
     const relativePath = path.relative(directory, filePath);
-
-    // Use the specified output folder from config or default to 'output'
     const outFolder = config.OutFolder || 'output';
-
-    // Create the output folder if it doesn't exist
     const outputFolderPath = path.join(
       directory,
       outFolder,
@@ -66,13 +59,16 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
     }
 
     const outputFile = path.parse(filePath);
-    const outputFileName = path.join(outputFolderPath, `${outputFile.name}.js`); // Use the same name as the alg file with .js extension
+    const outputFileName = path.join(outputFolderPath, `${outputFile.name}.js`);
     fs.writeFileSync(outputFileName, jsCode);
     logData.result = `JavaScript file generated: ${outputFileName}`;
 
     logToFile(logData);
-  } else {
-    // Create a temporary folder mirroring the input file structure
+  } else if (
+    outputType === 'Run' ||
+    outputType === 'run' ||
+    outputType === '2'
+  ) {
     const relativePath = path.relative(directory, filePath);
     const tempFolder = path.join(__dirname, 'temp', path.dirname(relativePath));
     if (!fs.existsSync(tempFolder)) {
@@ -84,17 +80,12 @@ function compileToJs(code, outputType, fileName, filePath, directory, config) {
       const outputFile = path.parse(fileName);
       tempFileName = path.join(tempFolder, `${outputFile.name}.js`);
     } else {
-      tempFileName = path.join(tempFolder, `temp_${Date.now()}.js`); // Generate a unique temporary file name
+      tempFileName = path.join(tempFolder, `temp_${Date.now()}.js`);
     }
 
     fs.writeFileSync(tempFileName, jsCode);
+    logData.tempFilePaths = [tempFileName];
 
-    // Store the temp file paths to execute them later
-    logData.tempFilePaths = logData.tempFilePaths || [];
-    logData.tempFilePaths.push(tempFileName);
-  }
-
-  if (outputType === 'Run' || outputType === 'run' || outputType === '2') {
     executeTempFiles(logData.tempFilePaths, logData);
   }
 }
@@ -107,7 +98,6 @@ function logToFile(data) {
   const logFilePath = path.join(logFolder, 'log.json');
   let logEntries = [];
 
-  // Read existing log entries if log file exists
   if (fs.existsSync(logFilePath)) {
     const existingLogData = fs.readFileSync(logFilePath, 'utf-8');
     logEntries = JSON.parse(existingLogData);
@@ -115,7 +105,6 @@ function logToFile(data) {
 
   logEntries.push(data);
 
-  // Write updated log entries to the log file
   fs.writeFileSync(logFilePath, JSON.stringify(logEntries, null, 2) + os.EOL);
 }
 
@@ -137,35 +126,33 @@ function executeTempFiles(tempFilePaths, logData) {
     return;
   }
 
-  tempFilePaths.forEach((tempFilePath) => {
-    const { exec } = require('child_process');
-    exec(`node ${tempFilePath}`, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error executing code: ${error.message}`);
-        logData.error = `Error executing code: ${error.message}`;
-        logToFile(logData);
-        return;
-      }
-      if (stderr) {
-        console.error(`Error output: ${stderr}`);
-        logData.error = `Error output: ${stderr}`;
-        logToFile(logData);
-        return;
-      }
-      console.log('Result:', stdout);
-      logData.result = stdout;
+  const { exec } = require('child_process');
+  const tempFilePath = tempFilePaths[0]; // Ensure only the first file is executed
 
-      // Delete the temporary file
-      try {
-        fs.unlinkSync(tempFilePath);
-        // Remove empty parent directories recursively
-        removeEmptyParentDirectories(path.dirname(tempFilePath));
-      } catch (err) {
-        console.error(`Error deleting temporary file: ${err.message}`);
-      }
-
+  exec(`node ${tempFilePath}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing code: ${error.message}`);
+      logData.error = `Error executing code: ${error.message}`;
       logToFile(logData);
-    });
+      return;
+    }
+    if (stderr) {
+      console.error(`Error output: ${stderr}`);
+      logData.error = `Error output: ${stderr}`;
+      logToFile(logData);
+      return;
+    }
+    console.log('Result:', stdout);
+    logData.result = stdout;
+
+    try {
+      fs.unlinkSync(tempFilePath);
+      removeEmptyParentDirectories(path.dirname(tempFilePath));
+    } catch (err) {
+      console.error(`Error deleting temporary file: ${err.message}`);
+    }
+
+    logToFile(logData);
   });
 }
 

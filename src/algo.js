@@ -3,7 +3,6 @@ const path = require('path');
 const { program } = require('commander');
 const readline = require('readline');
 const { compileToJs } = require('./Compilers/js/compiler');
-const { compileToPython } = require('./Compilers/python(In-Hold)/compiler');
 const packageJson = require('../package.json');
 
 // Function to read configuration from config.lang file
@@ -67,10 +66,6 @@ function processFiles(directory, action) {
   readConfig(directory, (config) => {
     const language = String(config.Language);
 
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
     findAllAlgFiles(directory, (filePath) => {
       fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
@@ -99,11 +94,16 @@ function processFiles(directory, action) {
         }
       });
     });
-
-    rl.close();
   });
 }
 
+// Define REPL interface for user input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+// Command definitions
 program
   .command('clean')
   .description('Delete log and temp folders in compilers directory')
@@ -137,11 +137,6 @@ program
 
     readConfig(directory, (config) => {
       const language = String(config.Language);
-
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
 
       function promptUser() {
         const promptMessage = `Selected Language:${language}
@@ -180,7 +175,7 @@ Select Mode (Convert or 1/Run or 2): `;
               });
             });
 
-            rl.close();
+            rl.prompt();
           } else {
             console.error(
               'Invalid option. Please select 1, 2, Convert, or Run.'
@@ -203,7 +198,27 @@ Select Mode (Convert or 1/Run or 2): `;
     console.log('  $ algo -v');
   });
 
+// Parse command line arguments
 program.parse(process.argv);
+
+// Start the REPL loop
+rl.setPrompt('> ');
+rl.prompt();
+
+// Close the REPL interface on 'exit' command
+rl.on('line', (input) => {
+  if (input.trim().toLowerCase() === 'exit') {
+    rl.close();
+  } else {
+    program.parse(input.split(' '), { from: 'user' });
+    rl.prompt();
+  }
+});
+
+rl.on('close', () => {
+  console.log('Exiting REPL.');
+  process.exit(0);
+});
 
 function cleanCompilersDirectory() {
   const compilersDir = path.join(__dirname, 'Compilers');

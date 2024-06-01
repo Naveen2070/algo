@@ -1,73 +1,149 @@
+const fs = require('fs');
+const path = require('path');
+
 class Link {
   constructor(name) {
     this.name = name;
     this.value = null;
     this.subscribers = [];
-    this.func = null; // To store a function
   }
 
-  get() {
+  async get() {
     if (this.value !== null) {
-      return this.value;
+      return this.resolveValue();
     }
+
+    const links = await loadLinks();
+    if (links[this.name] && links[this.name].value !== null) {
+      this.value = links[this.name].value;
+      return this.resolveValue();
+    }
+
     // Create a promise that resolves when the value is set
     return new Promise((resolve) => {
       this.subscribers.push(resolve);
     });
   }
 
-  set(newValue) {
+  async set(newValue) {
     this.value = newValue;
-    this.subscribers.forEach((resolve) => resolve(newValue));
+    this.subscribers.forEach((resolve) => resolve(this.resolveValue()));
     this.subscribers = []; // Clear subscribers after setting the value
+    await this.save();
   }
 
-  storeFunction(func) {
-    if (typeof func === 'function') {
-      this.func = func;
-    } else {
-      console.error('storeFunction expects a function.');
+  async save() {
+    const links = await loadLinks();
+    links[this.name] = {
+      value: this.serializeValue(),
+    };
+    await saveLinks(links);
+  }
+
+  resolveValue() {
+    if (typeof this.value === 'string' && this.value.startsWith('function:')) {
+      const funcString = this.value.slice(9);
+      return new Function('return ' + funcString)();
     }
+    return this.value;
   }
 
-  executeStoredFunction() {
-    if (typeof this.func === 'function') {
-      return this.func();
-    } else {
-      console.error('No function stored in this Link object.');
+  serializeValue() {
+    if (typeof this.value === 'function') {
+      return 'function:' + this.value.toString();
     }
+    return this.value;
   }
 
-  destroy() {
-    // Remove all subscribers
+  async destroy() {
     this.subscribers = [];
-    // Remove reference to value
     this.value = null;
-    // Remove link from registry
     delete linkRegistry[this.name];
-    // Remove reference to name
     this.name = null;
-    this.func = null; // Remove reference to the stored function
+
+    try {
+      const links = await loadLinks();
+      delete links[this.name];
+
+      const hasLinks = Object.values(links).some(
+        (link) => link !== null && link.value !== null
+      );
+
+      if (!hasLinks) {
+        await fs.promises.unlink(getFilePath());
+      } else {
+        await saveLinks(links);
+      }
+    } catch (error) {
+      console.error('Error while destroying link:', error);
+    }
   }
 }
 
 // Global registry of links
 const linkRegistry = {};
 
-// Function to create and register a new link
-function createLink(name) {
+async function createLink(name) {
   if (linkRegistry[name]) {
     console.warn(`Link with name "${name}" already exists.`);
     return linkRegistry[name];
   }
   const link = new Link(name);
   linkRegistry[name] = link;
+  await link.save(); // Save the link when it's created
   return link;
 }
 
-// Function to retrieve a link by its name
-function getLink(name) {
-  return linkRegistry[name];
+async function getLink(name) {
+  if (linkRegistry[name]) {
+    return linkRegistry[name];
+  }
+
+  const links = await loadLinks();
+  if (links[name]) {
+    const link = new Link(name);
+    link.value = links[name].value;
+    linkRegistry[name] = link;
+    return link;
+  }
+
+  return null;
+}
+
+function getFilePath() {
+  return path.join(process.cwd(), '.AlgoSys', 'main', 'bin', 'links.bin');
+}
+
+async function loadLinks() {
+  const filePath = getFilePath();
+  try {
+    const data = await fs.promises.readFile(filePath);
+    return decodeLinks(data);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return {};
+    }
+    throw error;
+  }
+}
+
+async function saveLinks(links) {
+  const filePath = getFilePath();
+  const data = encodeLinks(links);
+  await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.promises.writeFile(filePath, data);
+}
+
+function encodeLinks(links) {
+  const jsonString = JSON.stringify(links);
+  const buffer = Buffer.from(jsonString, 'utf8');
+  return buffer.toString('hex');
+}
+
+function decodeLinks(data) {
+  const buffer = Buffer.from(data.toString(), 'hex');
+  const jsonString = buffer.toString('utf8');
+  return JSON.parse(jsonString);
 }
 
 module.exports = { createLink, getLink };

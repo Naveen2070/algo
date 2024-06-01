@@ -45,11 +45,33 @@ function processFunction(line, currentFunction) {
   // Check for Link keywords
   line = processLink(line);
 
+  line = processAsyncFunction(line, currentFunction);
+
   // Check for regular statements
   return checkKeyword(line, currentFunction);
 }
+function processAsyncFunction(line, currentFunction) {
+  // Check for function definition
+  const funcDefMatch = line.match(/^Delay\s+(\w+)\s*\((.*)\)$/);
+  if (funcDefMatch) {
+    const [, functionName, params] = funcDefMatch;
+    currentFunction.name = functionName;
+    currentFunction.params = params.split(',').map((param) => param.trim());
+    return `async function ${functionName}(${params}) {\n`;
+  }
+
+  // Check for End of function
+  if (line.startsWith('End')) {
+    currentFunction.name = '';
+    currentFunction.params = [];
+    return '}\n';
+  }
+
+  return line;
+}
 
 function importChecker(code, config, outputType) {
+  console.log(config);
   const lines = code.split('\n');
   let createLinkFound = false;
   let getLinkFound = false;
@@ -88,4 +110,4 @@ function importChecker(code, config, outputType) {
   return importStatement + code;
 }
 
-module.exports = { processFunction, importChecker };
+module.exports = { processFunction, importChecker, processAsyncFunction };
