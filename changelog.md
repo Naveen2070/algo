@@ -44,7 +44,7 @@
 - Added `--version` (`-v`) to check version, `--help` (`-h`) for help, and `clean` command to clean the log and temp.
 - Updated documentation accordingly.
 
-## Version 1.0.7
+## Version 1.0.8
 
 - Implemented Async support to enhance performance and responsiveness.
 - Enhanced Link functionality to enable connection and data transfer between multiple files.
