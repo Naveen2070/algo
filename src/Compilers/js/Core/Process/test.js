@@ -1,4 +1,3 @@
-// Example usage in an ALG file
 const Thread = require('./Threads');
 
 const newThread = new Thread('MyThread');
