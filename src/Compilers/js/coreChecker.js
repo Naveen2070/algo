@@ -30,6 +30,38 @@ function processLink(line) {
     return line.replace(/Unlink\s*\(\s*["'](.+?)["']\s*\)/g, '$1.destroy()');
   }
 
+  // Check for Thread creation
+  if (line.includes('New Thread')) {
+    return line.replace(
+      /New Thread\s*\(\s*["'](.+?)["']\s*\)/g,
+      "Thread.create('$1')"
+    );
+  }
+
+  // Check for Thread start
+  if (line.includes('Start Thread')) {
+    return line.replace(
+      /Start Thread\s*\(\s*["'](.+?)["']\s*\)/g,
+      "startThread('$1')"
+    );
+  }
+
+  // Check for Thread pause
+  if (line.includes('Pause Thread')) {
+    return line.replace(
+      /Pause Thread\s*\(\s*["'](.+?)["']\s*\)/g,
+      "pauseThread('$1')"
+    );
+  }
+
+  // Check for Thread resume
+  if (line.includes('Resume Thread')) {
+    return line.replace(
+      /Resume Thread\s*\(\s*["'](.+?)["']\s*\)/g,
+      "resumeThread('$1')"
+    );
+  }
+
   return line;
 }
 
