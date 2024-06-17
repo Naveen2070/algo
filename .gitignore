@@ -10,6 +10,7 @@
 /src/Compilers/js/temp
 /src/Compilers/js/log
 /src/Compilers/js/Core/State/links.json
+/old
 
 # Ignore algo_file 
 /algo_files

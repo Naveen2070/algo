@@ -72,11 +72,12 @@ function processAsyncFunction(line, currentFunction) {
 }
 
 function importChecker(code, config, outputType) {
+  console.log(config.Mode);
   const lines = code.split('\n');
   let createLinkFound = false;
   let getLinkFound = false;
   let useStatement = null; // Variable to store the type of "Use" statement found
-  const isProduction = config.Mode === 'Production';
+  const isProduction = config.Mode == 'Production';
   const isRun =
     outputType === '2' || outputType === 'Run' || outputType === 'run';
 
@@ -98,10 +99,10 @@ function importChecker(code, config, outputType) {
     case 'ADS':
       importStatement +=
         isProduction && !isRun
-          ? `const ADS = require('alg-compiler/core/state/ADS');\n`
+          ? `const ADS = require('alg-compiler/core/ADS/ADS');\n`
           : !isProduction && isRun
-          ? `const ADS = require('../Core/State/ADS');\n`
-          : `const ADS = require('../../src/Compilers/js/Core/State/ADS');\n`;
+          ? `const ADS = require('../Core/ADS/ADS');\n`
+          : `const ADS = require('../../src/Compilers/js/Core/ADS/ADS');\n`;
       break;
     default:
       break;
