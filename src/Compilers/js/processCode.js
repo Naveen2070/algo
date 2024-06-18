@@ -1,4 +1,4 @@
-const { processLink } = require('./coreChecker');
+const { CoreChecker } = require('./coreChecker');
 const { checkKeyword } = require('./keywordChecker');
 
 function processFunction(line, currentFunction) {
@@ -43,7 +43,7 @@ function processFunction(line, currentFunction) {
   }
 
   // Check for Link keywords
-  line = processLink(line);
+  line = CoreChecker(line);
 
   line = processAsyncFunction(line, currentFunction);
 
@@ -72,15 +72,17 @@ function processAsyncFunction(line, currentFunction) {
 }
 
 function importChecker(code, config, outputType) {
-  console.log(config.Mode);
+  console.log(config, outputType.toString() === 'Run');
   const lines = code.split('\n');
   let createLinkFound = false;
   let getLinkFound = false;
   let useStatement = null; // Variable to store the type of "Use" statement found
-  const isProduction = config.Mode == 'Production';
+  const isProduction = config.Mode === 'Production';
   const isRun =
-    outputType === '2' || outputType === 'Run' || outputType === 'run';
-
+    outputType.toString() === '2' ||
+    outputType.toString() === 'Run' ||
+    outputType.toString() === 'run';
+  console.log(!isProduction && isRun);
   // Check for existing imports and keywords in the code
   for (const line of lines) {
     if (line.includes('createLink')) createLinkFound = true;
@@ -103,6 +105,14 @@ function importChecker(code, config, outputType) {
           : !isProduction && isRun
           ? `const ADS = require('../Core/ADS/ADS');\n`
           : `const ADS = require('../../src/Compilers/js/Core/ADS/ADS');\n`;
+      break;
+    case 'Threads':
+      importStatement +=
+        isProduction && !isRun
+          ? `const Threads = require('alg-compiler/core/Process/Threads');\n`
+          : !isProduction && isRun
+          ? `const Threads = require('../Core/Process/Threads');\n`
+          : `const Threads = require('../../src/Compilers/js/Core/Process/Threads');\n`;
       break;
     default:
       break;
@@ -132,8 +142,12 @@ function importChecker(code, config, outputType) {
         : `const { createLink } = require('../../src/Compilers/js/Core/State/Link');\n`;
   }
 
-  // Prepend the generated import statement to the code
-  return importStatement + code;
+  // Remove the "Use" statement from the lines
+  const filteredLines = lines.filter((line) => !line.startsWith('Use '));
+
+  // Prepend the generated import statement to the filtered lines of code
+  const processedCode = importStatement + filteredLines.join('\n');
+  return processedCode;
 }
 
 module.exports = { processFunction, importChecker, processAsyncFunction };

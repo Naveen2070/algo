@@ -63,6 +63,7 @@ function findAllAlgFiles(directory, callback) {
 }
 
 function processFiles(directory, action) {
+  console.log(directory);
   readConfig(directory, (config) => {
     const language = String(config.Language);
 

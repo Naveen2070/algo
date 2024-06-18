@@ -5,7 +5,7 @@ class ImmutableStack {
 
   push(item) {
     const newItems = this._items.concat(item);
-    return new ImmutableStack(newItems);
+    return new ImmutableStack(newItems); // Return a new ImmutableStack with updated items
   }
 
   pop() {
@@ -13,7 +13,7 @@ class ImmutableStack {
       throw new Error('Stack underflow');
     }
     const newItems = this._items.slice(0, -1); // Remove last item
-    return new ImmutableStack(newItems);
+    return new ImmutableStack(newItems); // Return a new ImmutableStack with updated items
   }
 
   peek() {
@@ -39,7 +39,7 @@ class ImmutableQueue {
 
   enqueue(item) {
     const newItems = this._items.concat(item);
-    return new ImmutableQueue(newItems);
+    return new ImmutableQueue(newItems); // Return a new ImmutableQueue with updated items
   }
 
   dequeue() {
@@ -47,7 +47,7 @@ class ImmutableQueue {
       throw new Error('Queue underflow');
     }
     const newItems = this._items.slice(1); // Remove first item
-    return new ImmutableQueue(newItems);
+    return new ImmutableQueue(newItems); // Return a new ImmutableQueue with updated items
   }
 
   peek() {
@@ -133,7 +133,7 @@ class ImmutableMap {
   set(key, value) {
     const updatedEntries = this._entries.filter(([k, v]) => k !== key);
     updatedEntries.push([key, value]);
-    return new ImmutableMap(updatedEntries);
+    return new ImmutableMap(updatedEntries); // Return a new ImmutableMap with updated entries
   }
 
   get(key) {
@@ -143,7 +143,7 @@ class ImmutableMap {
 
   delete(key) {
     const updatedEntries = this._entries.filter(([k, v]) => k !== key);
-    return new ImmutableMap(updatedEntries);
+    return new ImmutableMap(updatedEntries); // Return a new ImmutableMap with updated entries
   }
 
   has(key) {
@@ -162,12 +162,12 @@ class ImmutableSet {
 
   add(item) {
     const newItems = Array.from(new Set(this._items.concat(item)));
-    return new ImmutableSet(newItems);
+    return new ImmutableSet(newItems); // Return a new ImmutableSet with updated items
   }
 
   delete(item) {
     const newItems = this._items.filter((x) => x !== item);
-    return new ImmutableSet(newItems);
+    return new ImmutableSet(newItems); // Return a new ImmutableSet with updated items
   }
 
   has(item) {
