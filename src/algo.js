@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
 const path = require('path');
 const { program } = require('commander');
@@ -129,7 +131,7 @@ program
   });
 
 program
-  .version(packageJson.version, '-v, --version')
+  .version(`Algo-Compiler\nVersion: ${packageJson.version}`, '-v, --version')
   .arguments('<file>')
   .description('Compile and execute .alg files.')
   .action((file) => {

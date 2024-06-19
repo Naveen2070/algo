@@ -146,4 +146,12 @@ function decodeLinks(data) {
   return JSON.parse(jsonString);
 }
 
-module.exports = { createLink, getLink };
+module.exports = {
+  Link,
+  createLink,
+  getLink,
+  loadLinks,
+  saveLinks,
+  encodeLinks,
+  decodeLinks,
+};

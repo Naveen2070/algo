@@ -19,7 +19,13 @@ To get started with Algo, follow these steps:
 For users, simply install the `algo-compiler` package via npm and start using it:
 
 ```bash
-npm i algo-compiler
+npm i -g algo-compiler
+```
+
+or
+
+```bash
+npm install -g algo-compiler
 ```
 
 For developers,

@@ -108,10 +108,6 @@ class Thread {
       resolve();
     });
   }
-
-  create(task) {
-    return new Thread(task.name).run(task.func); // Assuming `task` is an object with `name` and `func` properties
-  }
 }
 
 module.exports = Thread;

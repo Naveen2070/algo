@@ -85,15 +85,23 @@ class ImmutableLinkedList {
 
   append(value) {
     if (!this.head) {
-      return new ImmutableLinkedListNode(value);
+      return new ImmutableLinkedList(new ImmutableLinkedListNode(value));
     }
-    let current = this.head;
-    while (current.next) {
-      current = current.next;
+    const newHead = new ImmutableLinkedListNode(
+      this.head.value,
+      this.head.next
+    );
+    let currentNewNode = newHead;
+    let currentOldNode = this.head.next;
+
+    while (currentOldNode) {
+      currentNewNode.next = new ImmutableLinkedListNode(currentOldNode.value);
+      currentNewNode = currentNewNode.next;
+      currentOldNode = currentOldNode.next;
     }
-    const newNode = new ImmutableLinkedListNode(value);
-    current.next = newNode;
-    return new ImmutableLinkedList(this.head);
+
+    currentNewNode.next = new ImmutableLinkedListNode(value);
+    return new ImmutableLinkedList(newHead);
   }
 
   delete(value) {
@@ -103,15 +111,25 @@ class ImmutableLinkedList {
     if (this.head.value === value) {
       return new ImmutableLinkedList(this.head.next);
     }
-    let current = this.head;
-    while (current.next) {
-      if (current.next.value === value) {
-        current.next = current.next.next;
-        return new ImmutableLinkedList(this.head);
+
+    const newHead = new ImmutableLinkedListNode(
+      this.head.value,
+      this.head.next
+    );
+    let currentNewNode = newHead;
+    let currentOldNode = this.head.next;
+
+    while (currentOldNode) {
+      if (currentOldNode.value === value) {
+        currentNewNode.next = currentOldNode.next;
+        break;
       }
-      current = current.next;
+      currentNewNode.next = new ImmutableLinkedListNode(currentOldNode.value);
+      currentNewNode = currentNewNode.next;
+      currentOldNode = currentOldNode.next;
     }
-    return this;
+
+    return new ImmutableLinkedList(newHead);
   }
 
   toArray() {
