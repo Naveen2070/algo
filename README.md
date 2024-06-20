@@ -16,7 +16,7 @@ Before using Algo, ensure you have Node.js installed on your system. You can dow
 
 To get started with Algo, follow these steps:
 
-For users, simply install the `algo-compiler` package via npm and start using it:
+For users, simply install the `algo-compiler` package via npm globally and start using it:
 
 ```bash
 npm i -g algo-compiler
@@ -39,7 +39,7 @@ For developers,
 2. Install the required dependencies:
 
    ```bash
-   npm install
+   npm install -g
    ```
 
 3. Start using Algo to convert your pseudo code to JavaScript!
@@ -52,7 +52,7 @@ The algo reads configuration from a `config.lang` file in the project directory.
 
 - `Language`: The target language for conversion (e.g., JavaScript).
 - `Format`: The target language format for file creation (e.g., js for JavaScript).
-- `Version`: The version of the target language (optional).
+- `Version`: The version of the target language (optional) (Exprimental & Under-Development).
 - `OutFolder`: Specifies the output folder name for converted files.
 - `EntryPoint`: Specifies the root path for converting or running files using the `run` and `convert` commands.
 - `Mode`: Specifies the mode of operation (e.g., Development).

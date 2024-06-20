@@ -24,6 +24,12 @@
 - [Example for Algo Specific Features](#12-example-for-algo-specific-features)
   - [Link](#121-link)
   - [Link Across Files](#122-link-across-files)
+  - [Immutable Advanced Data Structures (ADS)](#123-immutable-advanced-data-structures-ads)
+    - [Immutable Stack](#1231-immutable-stack)
+    - [Immutable Queue](#1232-immutable-queue)
+    - [Immutable Linked List](#1233-immutable-linked-list)
+    - [Immutable Map](#1234-immutable-map)
+    - [Immutable Set](#1235-immutable-set)
 
 These examples cover a variety of algorithms and built-in functions, showcasing their implementation in the Algo syntax.
 
@@ -686,3 +692,189 @@ In the above example, `Main.alg` is used to create a new link named `myLink` and
    - The `link()` function is executed to access and manage the link.
 
 These examples demonstrate various basic algorithms implemented in the Algo syntax. Feel free to use them as reference for your projects or learning purposes.
+
+### 12.3. Immutable Advanced Data Structures (ADS)
+
+Immutable data structures (ADS) in Algo are designed to provide efficient and safe manipulation of data without modifying the original structure. These structures ensure that once created, they cannot be altered, making them particularly useful in concurrent programming and scenarios requiring predictability and safety.
+
+**Note: To use these data structures you need import them using `Use` key from core imports. Import using `Use ADS` at the top of your code.**
+
+Below are explanations and examples for various Immutable ADS in Algo:
+
+### 12.3.1. Immutable Stack
+
+An `ImmutableStack` is a Last-In-First-Out (LIFO) data structure. It allows you to push and pop elements, creating new stacks without altering the original.
+
+**ImmutableStack.alg:**
+
+```algo
+Use ADS
+
+Delay main()
+    // Creating an empty immutable stack
+    const stack = Sync New ImmutableStack()
+
+    // Pushing elements onto the stack
+    const stack1 = Sync Push ImmutableStack(stack, 1)
+    const stack2 = Sync Push ImmutableStack(stack1, 2)
+    const stack3 = Sync Push ImmutableStack(stack2, 3)
+
+    // Accessing the top element
+    const topElement = Sync Peek ImmutableStack(stack3)
+    Print(topElement) // Output: 3
+
+    // Popping elements from the stack
+    const stackAfterPop = Sync Pop ImmutableStack(stack3)
+    Print(stackAfterPop) // Output: [1, 2]
+
+    // Checking the original stack remains unchanged
+    Print(stack) // Output: []
+    Print(stack3) // Output: [1, 2, 3]
+End
+main()
+```
+
+### 12.3.2. Immutable Queue
+
+An `ImmutableQueue` is a First-In-First-Out (FIFO) data structure. It allows you to enqueue and dequeue elements, creating new queues without altering the original.
+
+**ImmutableQueue.alg:**
+
+```algo
+Use ADS
+
+Delay main()
+    // Creating an empty immutable queue
+    const queue = Sync New ImmutableQueue()
+
+    // Enqueuing elements into the queue
+    const queue1 = Sync Enqueue ImmutableQueue(queue, 1)
+    const queue2 = Sync Enqueue ImmutableQueue(queue1, 2)
+    const queue3 = Sync Enqueue ImmutableQueue(queue2, 3)
+
+    // Accessing the front element
+    const frontElement = Sync Peek ImmutableQueue(queue3)
+    Print(frontElement) // Output: 1
+
+    // Dequeuing elements from the queue
+    const queueAfterDequeue = Sync Dequeue ImmutableQueue(queue3)
+    Print(queueAfterDequeue) // Output: [2, 3]
+
+    // Checking the original queue remains unchanged
+    Print(queue) // Output: []
+    Print(queue3) // Output: [1, 2, 3]
+End
+main()
+```
+
+### 12.3.3. Immutable Linked List
+
+An `ImmutableLinkedList` is a sequential collection of elements where each element points to the next. It allows you to add and remove elements, creating new linked lists without altering the original.
+
+**ImmutableLinkedList.alg:**
+
+```algo
+Use ADS
+
+Delay main()
+    // Creating an empty immutable linked list
+    const list = Sync New ImmutableLinkedList()
+
+    // Adding elements to the linked list
+    const list1 = Sync Add ImmutableLinkedList(list, 1)
+    const list2 = Sync Add ImmutableLinkedList(list1, 2)
+    const list3 = Sync Add ImmutableLinkedList(list2, 3)
+
+    // Accessing elements
+    const firstElement = Sync Get ImmutableLinkedList(list3, 0)
+    const secondElement = Sync Get ImmutableLinkedList(list3, 1)
+    Print(firstElement) // Output: 1
+    Print(secondElement) // Output: 2
+
+    // Removing an element
+    const listAfterRemove = Sync Remove ImmutableLinkedList(list3, 1)
+    Print(listAfterRemove) // Output: [1, 3]
+
+    // Checking the original list remains unchanged
+    Print(list) // Output: []
+    Print(list3) // Output: [1, 2, 3]
+End
+main()
+```
+
+### 12.3.4. Immutable Map
+
+An `ImmutableMap` is a collection of key-value pairs. It allows you to put and get values, creating new maps without altering the original.
+
+**ImmutableMap.alg:**
+
+```algo
+Use ADS
+
+Delay main()
+    // Creating an immutable map
+    const map = Sync New ImmutableMap("key1", "value1", "key2", "value2")
+
+    // Accessing values
+    const value = Sync Get ImmutableMap(map, "key1")
+    Print(value) // Output: value1
+
+    // Attempting to modify the map (will not change the original map)
+    const newMap = Sync Put ImmutableMap(map, "key3", "value3")
+    Print(map)     // Output: {"key1": "value1", "key2": "value2"}
+    Print(newMap)  // Output: {"key1": "value1", "key2": "value2", "key3": "value3"}
+
+    // Removing an element
+    const updatedMap = Sync Remove ImmutableMap(newMap, "key1")
+    Print(updatedMap) // Output: {"key2": "value2", "key3": "value3"}
+
+    // Checking the original map remains unchanged
+    Print(map) // Output: {"key1": "value1", "key2": "value2"}
+End
+main()
+```
+
+### 12.3.5. Immutable Set
+
+An `ImmutableSet` is a collection of unique values. It allows you to add and remove values, creating new sets without altering the original.
+
+**ImmutableSet.alg:**
+
+```algo
+Use ADS
+
+Delay main()
+    // Creating an empty immutable set
+    const set = Sync New ImmutableSet()
+
+    // Adding elements to the set
+    const set1 = Sync Add ImmutableSet(set, 1)
+    const set2 = Sync Add ImmutableSet(set1, 2)
+    const set3 = Sync Add ImmutableSet(set2, 3)
+    const set4 = Sync Add ImmutableSet(set3, 1) // Duplicate, will not be added
+
+    // Checking elements in the set
+    Print(set4) // Output: [1, 2, 3]
+
+    // Removing an element
+    const setAfterRemove = Sync Remove ImmutableSet(set4, 2)
+    Print(setAfterRemove) // Output: [1, 3]
+
+    // Checking the original set remains unchanged
+    Print(set) // Output: []
+    Print(set4) // Output: [1, 2, 3]
+End
+main()
+```
+
+### Summary
+
+These examples demonstrate the use of various immutable advanced data structures (ADS) in Algo:
+
+- **Immutable Stack**: LIFO structure with push and pop operations.
+- **Immutable Queue**: FIFO structure with enqueue and dequeue operations.
+- **Immutable Linked List**: Sequential collection with add and remove operations.
+- **Immutable Map**: Key-value collection with put and get operations.
+- **Immutable Set**: Unique value collection with add and remove operations.
+
+Each structure provides immutability, ensuring that the original data remains unchanged while allowing for efficient creation of new versions with modifications. This immutability guarantees thread safety, predictability, and data integrity, making these structures highly suitable for complex and concurrent programming scenarios.
