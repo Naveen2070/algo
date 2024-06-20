@@ -131,6 +131,29 @@ program
   });
 
 program
+  .command('repl')
+  .description('Enter REPL mode.')
+  .action(() => {
+    console.log('Entering REPL mode...');
+    rl.setPrompt('> ');
+    rl.prompt();
+
+    rl.on('line', (input) => {
+      if (input.trim().toLowerCase() === 'exit') {
+        rl.close();
+      } else {
+        program.parse(input.split(' '), { from: 'user' });
+        rl.prompt();
+      }
+    });
+
+    rl.on('close', () => {
+      console.log('Exiting REPL.');
+      process.exit(0);
+    });
+  });
+
+program
   .version(`Algo-Compiler\nVersion: ${packageJson.version}`, '-v, --version')
   .arguments('<file>')
   .description('Compile and execute .alg files.')
@@ -197,31 +220,14 @@ Select Mode (Convert or 1/Run or 2): `;
     console.log('  $ algo script.alg');
     console.log('  $ algo clean');
     console.log('  $ algo run');
+    console.log('  $ algo convert');
+    console.log('  $ algo repl');
     console.log('  $ algo --help');
     console.log('  $ algo -v');
   });
 
 // Parse command line arguments
 program.parse(process.argv);
-
-// Start the REPL loop
-rl.setPrompt('> ');
-rl.prompt();
-
-// Close the REPL interface on 'exit' command
-rl.on('line', (input) => {
-  if (input.trim().toLowerCase() === 'exit') {
-    rl.close();
-  } else {
-    program.parse(input.split(' '), { from: 'user' });
-    rl.prompt();
-  }
-});
-
-rl.on('close', () => {
-  console.log('Exiting REPL.');
-  process.exit(0);
-});
 
 function cleanCompilersDirectory() {
   const compilersDir = path.join(__dirname, 'Compilers');

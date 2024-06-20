@@ -664,6 +664,7 @@ link()
 ```algo
 Delay main()
     // Creating a new link
+    const myLink = Sync Link To("myLink")
     Sync New Link("myLink")
     // Setting a value to the link
     Sync Set Link(42, "myLink")
