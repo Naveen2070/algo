@@ -1,4 +1,4 @@
-const { splitArrayAtFirstComma } = require('../../util/commanCheckers');
+const { splitArrayAtFirstComma } = require('../../util/commonCheckers');
 
 function convertMathFunction(funcName, args) {
   const jsFunction = {

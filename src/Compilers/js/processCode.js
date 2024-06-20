@@ -1,4 +1,4 @@
-const { processLink } = require('./coreChecker');
+const { CoreChecker } = require('./coreChecker');
 const { checkKeyword } = require('./keywordChecker');
 
 function processFunction(line, currentFunction) {
@@ -43,13 +43,14 @@ function processFunction(line, currentFunction) {
   }
 
   // Check for Link keywords
-  line = processLink(line);
+  line = CoreChecker(line);
 
   line = processAsyncFunction(line, currentFunction);
 
   // Check for regular statements
   return checkKeyword(line, currentFunction);
 }
+
 function processAsyncFunction(line, currentFunction) {
   // Check for function definition
   const funcDefMatch = line.match(/^Delay\s+(\w+)\s*\((.*)\)$/);
@@ -71,43 +72,61 @@ function processAsyncFunction(line, currentFunction) {
 }
 
 function importChecker(code, config, outputType) {
-  console.log(config);
   const lines = code.split('\n');
-  let createLinkFound = false;
-  let getLinkFound = false;
+  let useStatements = []; // Array to store the types of "Use" statements found
   const isProduction = config.Mode === 'Production';
   const isRun =
-    outputType === '2' || outputType === 'Run' || outputType === 'run';
+    outputType.toString() === '2' ||
+    outputType.toString() === 'Run' ||
+    outputType.toString() === 'run';
 
+  // Check for existing imports and keywords in the code
   for (const line of lines) {
-    if (line.includes('createLink')) createLinkFound = true;
-    if (line.includes('getLink')) getLinkFound = true;
+    if (line.startsWith('Use ')) {
+      // Extract the "Use" statement types and split by comma
+      const modules = line.substring('Use '.length).trim().split(',');
+      useStatements = useStatements.concat(
+        modules.map((module) => module.trim())
+      );
+    }
   }
 
-  let importStatement = '';
-  if (createLinkFound && getLinkFound) {
-    importStatement +=
+  // Prepare the import statements based on the "Use" statements found
+  let importStatements = '';
+
+  if (useStatements.includes('ADS')) {
+    importStatements +=
       isProduction && !isRun
-        ? `const { createLink,getLink } = require('alg-compiler/core/state/Link');\n`
+        ? `const ADS = require('alg-compiler/core/ADS/ADS');\n`
         : !isProduction && isRun
-        ? `const { createLink,getLink } = require('../Core/State/Link')\n`
-        : `const { createLink,getLink } = require('../../src/Compilers/js/Core/State/Link')\n`;
-  } else if (getLinkFound) {
-    importStatement +=
-      isProduction && !isRun
-        ? `const { getLink } = require('alg-compiler/core/state/Link');\n`
-        : !isProduction && isRun
-        ? `const { getLink } = require('../Core/State/Link')\n`
-        : `const { getLink } = require('../../src/Compilers/js/Core/State/Link')\n`;
-  } else if (createLinkFound) {
-    importStatement +=
-      isProduction && !isRun
-        ? `const { createLink } = require('alg-compiler/core/state/Link');\n`
-        : !isProduction && isRun
-        ? `const { createLink } = require('../Core/State/Link')\n`
-        : `const { createLink } = require('../../src/Compilers/js/Core/State/Link')\n`;
+        ? `const ADS = require('../Core/ADS/ADS');\n`
+        : `const ADS = require('../../src/Compilers/js/Core/ADS/ADS');\n`;
   }
-  return importStatement + code;
+
+  if (useStatements.includes('Threads')) {
+    importStatements +=
+      isProduction && !isRun
+        ? `const Threads = require('alg-compiler/core/Process/Threads');\n`
+        : !isProduction && isRun
+        ? `const Threads = require('../Core/Process/Threads');\n`
+        : `const Threads = require('../../src/Compilers/js/Core/Process/Threads');\n`;
+  }
+
+  if (useStatements.includes('Links')) {
+    importStatements +=
+      isProduction && !isRun
+        ? `const Links = require('alg-compiler/core/State/Link');\n`
+        : !isProduction && isRun
+        ? `const Links = require('../Core/State/Link');\n`
+        : `const Links = require('../../src/Compilers/js/Core/State/Link');\n`;
+  }
+
+  // Remove the "Use" statements from the lines
+  const filteredLines = lines.filter((line) => !line.startsWith('Use '));
+
+  // Prepend the generated import statements to the filtered lines of code
+  const processedCode = importStatements + filteredLines.join('\n');
+  return processedCode;
 }
 
 module.exports = { processFunction, importChecker, processAsyncFunction };

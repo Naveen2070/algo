@@ -5,6 +5,25 @@ const {
   convertArrayFunction,
 } = require('./inBuiltFunctionMap');
 
+// Function to check and replace new Immutable data type instances
+function checkImmutableDataTypes(line) {
+  const immutableTypes = [
+    'ImmutableStack',
+    'ImmutableQueue',
+    'ImmutableMap',
+    'ImmutableSet',
+    'ImmutableLinkedList',
+    'ImmutableList',
+  ];
+
+  for (const type of immutableTypes) {
+    if (line.includes(`new ${type}(`)) {
+      return line.replace(`new ${type}(`, `new ADS.${type}(`);
+    }
+  }
+  return line;
+}
+
 function checkBuiltInFunctions(line) {
   const mathFunctions = [
     'Round up',
@@ -82,6 +101,7 @@ function checkBuiltInFunctions(line) {
       ...unaryFunctions,
       ...stringFunctions,
       ...arrayFunctions,
+      'ImmutableMap', // Include ImmutableMap explicitly
     ].join('|')})\\s*\\(([^)]*)\\)`,
     'g'
   );
@@ -109,6 +129,9 @@ function checkBuiltInFunctions(line) {
     const afterPrint = printMatch[3].trim();
     checkedLine = `${beforePrint} console.log(${content}); ${afterPrint}\n`;
   }
+
+  // Check and replace immutable data type instances
+  checkedLine = checkImmutableDataTypes(checkedLine);
 
   return checkedLine + '\n'; // Return the modified line
 }

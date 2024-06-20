@@ -1,15 +1,18 @@
-function processLink(line) {
+function CoreChecker(line) {
   // Check for New Link
   if (line.includes('New Link')) {
     return line.replace(
       /New Link\s*\(\s*["'](.+?)["']\s*\)/g,
-      "createLink('$1')"
+      "Links.createLink('$1')"
     );
   }
 
   // Check for Link To
   if (line.includes('Link To')) {
-    return line.replace(/Link To\s*\(\s*["'](.+?)["']\s*\)/g, "getLink('$1')");
+    return line.replace(
+      /Link To\s*\(\s*["'](.+?)["']\s*\)/g,
+      "Links.getLink('$1')"
+    );
   }
 
   // Check for Set Link
@@ -30,7 +33,23 @@ function processLink(line) {
     return line.replace(/Unlink\s*\(\s*["'](.+?)["']\s*\)/g, '$1.destroy()');
   }
 
+  // Check for Create Thread
+  if (line.includes('Create Thread')) {
+    return line.replace(
+      /Create Thread\s*\(\s*["'](.+?)["']\s*\)/g,
+      "new Threads('$1')"
+    );
+  }
+
+  // Check for Run Thread
+  if (line.includes('Run Thread')) {
+    return line.replace(
+      /Run Thread\s*\(\s*["'](.+?)["']\s*\)\s*With\s*\((.+?)\)/g,
+      '$1.run($2)'
+    );
+  }
+
   return line;
 }
 
-module.exports = { processLink };
+module.exports = { CoreChecker };

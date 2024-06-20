@@ -22,7 +22,14 @@ This guide outlines the syntax rules and conventions for writing code in the pse
 - [9. Immediately Invoked Function Expression (IIFE)](#9-immediately-invoked-function-expression-iife)
 - [10. Exports and Imports](#10-exports-and-imports)
 - [11. Algo Specific Features](#11-algo-specific-features)
-  - [11.1. Link](#111-link)
+  - [11.1. Use](#111-use)
+  - [11.2. Link](#112-link)
+  - [11.3. ADS (Immutable Advanced Data Structures)](#113-ads-immutable-advanced-data-structures)
+    - [11.3.1. Immutable Stack](#1131-immutable-stack)
+    - [11.3.2. Immutable Queue](#1132-immutable-queue)
+    - [11.3.3. Immutable Linked List](#1133-immutable-linked-list)
+    - [11.3.4. Immutable Map](#1134-immutable-map)
+    - [11.3.5. Immutable Set](#1135-immutable-set)
 - [12. Example](#12-example)
 
 ## 1. Comments
@@ -215,11 +222,29 @@ Export param1, param2, ...
 Import param1, param2, ... From path/to/file
 ```
 
+Here's the revised section for Algo Specific Features with the additions you requested:
+
 ## 11. Algo Specific Features
 
-### 11.1. Link
+### 11.1. Use
 
-The Link feature allows you to create and manage named links to values and functions. Link operations are asynchronous, so they must be used in async functions and awaited for the result.
+The `Use` keyword in Algo is used to import core features of the language. Multiple features can be imported using commas `,` to separate each feature.
+
+#### Syntax
+
+```algo
+Use Feature1, Feature2, ...
+```
+
+#### Example
+
+```algo
+Use ADS, Link
+```
+
+### 11.2. Link
+
+The Link feature in Algo allows you to create and manage named links to values and functions. Link operations are asynchronous and should be used within async functions, awaiting the results where necessary.
 
 #### Syntax
 
@@ -247,6 +272,32 @@ Delay main()
 End
 ```
 
+### 11.3. ADS (Immutable Advanced Data Structures)
+
+Immutable data structures (ADS) in Algo provide efficient and safe manipulation of data without modifying the original structure. These structures ensure that once created, they cannot be altered, making them particularly useful in concurrent programming and scenarios requiring predictability and safety.
+
+### 11.3.1. Immutable Stack
+
+An `ImmutableStack` is a Last-In-First-Out (LIFO) data structure.
+
+### 11.3.2. Immutable Queue
+
+An `ImmutableQueue` is a First-In-First-Out (FIFO) data structure.
+
+### 11.3.3. Immutable Linked List
+
+An `ImmutableLinkedList` is a sequential collection of elements where each element points to the next.
+
+### 11.3.4. Immutable Map
+
+An `ImmutableMap` is a collection of key-value pairs.
+
+### 11.3.5. Immutable Set
+
+An `ImmutableSet` is a collection of unique values.
+
+These immutable ADS allow for safe and predictable data manipulation in Algo.
+
 ## 12. Example
 
 ### Odd-Even Check
@@ -264,4 +315,4 @@ oddEven(8)
 
 ---
 
-This documentation provides a basic overview of the syntax and structure of Algo. Refer to specific [examples](Examples.md) or documentation for more detailed usage and features.
+This documentation provides a basic overview of the syntax and structure of Algo, including its specific features such as importing core functionalities (`Use`), managing links (`Link`), and utilizing immutable advanced data structures (`ADS`). For more detailed usage and examples, refer to specific documentation or [examples](Examples.md) provided .
