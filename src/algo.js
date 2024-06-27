@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const { program } = require('commander');
-const readline = require('readline');
 const { compileToJs } = require('./Compilers/js/compiler');
 const packageJson = require('../package.json');
 
@@ -100,12 +99,6 @@ function processFiles(directory, action) {
   });
 }
 
-// Define REPL interface for user input
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
 // Command definitions
 program
   .command('clean')
@@ -128,29 +121,6 @@ program
   .action(() => {
     const directory = process.cwd();
     processFiles(directory, 'Convert');
-  });
-
-program
-  .command('repl')
-  .description('Enter REPL mode.')
-  .action(() => {
-    console.log('Entering REPL mode...');
-    rl.setPrompt('> ');
-    rl.prompt();
-
-    rl.on('line', (input) => {
-      if (input.trim().toLowerCase() === 'exit') {
-        rl.close();
-      } else {
-        program.parse(input.split(' '), { from: 'user' });
-        rl.prompt();
-      }
-    });
-
-    rl.on('close', () => {
-      console.log('Exiting REPL.');
-      process.exit(0);
-    });
   });
 
 program
@@ -200,8 +170,6 @@ Select Mode (Convert or 1/Run or 2): `;
                 }
               });
             });
-
-            rl.prompt();
           } else {
             console.error(
               'Invalid option. Please select 1, 2, Convert, or Run.'
@@ -221,7 +189,6 @@ Select Mode (Convert or 1/Run or 2): `;
     console.log('  $ algo clean');
     console.log('  $ algo run');
     console.log('  $ algo convert');
-    console.log('  $ algo repl');
     console.log('  $ algo --help');
     console.log('  $ algo -v');
   });

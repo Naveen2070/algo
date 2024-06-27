@@ -45,7 +45,7 @@ function CoreChecker(line) {
   if (line.includes('Run Thread')) {
     return line.replace(
       /Run Thread\s*\(\s*["'](.+?)["']\s*\)\s*With\s*\((.+?)\)/g,
-      '$1.run($2)'
+      'await $1.run($2)'
     );
   }
 
