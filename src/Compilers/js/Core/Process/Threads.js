@@ -18,13 +18,25 @@ if (!isMainThread) {
       parentPort.postMessage({ error: error.message });
     });
 } else {
+  /**
+   * Class representing a thread.
+   */
   class Thread {
+    /**
+     * Create a thread.
+     * @param {string} name - The name of the thread.
+     */
     constructor(name) {
       this.name = name;
       this.worker = null;
       this.paused = false;
     }
 
+    /**
+     * Run a task in the thread.
+     * @param {function} task - The task to run.
+     * @return {Promise} A promise that resolves when the task is complete.
+     */
     run(task) {
       return new Promise((resolve, reject) => {
         if (typeof task === 'function') {
@@ -58,6 +70,10 @@ if (!isMainThread) {
       });
     }
 
+    /**
+     * Pause the thread.
+     * @return {Promise} A promise that resolves when the thread is paused.
+     */
     pause() {
       return new Promise((resolve, reject) => {
         if (!this.worker) {
@@ -74,6 +90,10 @@ if (!isMainThread) {
       });
     }
 
+    /**
+     * Resume the thread.
+     * @return {Promise} A promise that resolves when the thread is resumed.
+     */
     resume() {
       return new Promise((resolve, reject) => {
         if (!this.worker) {
